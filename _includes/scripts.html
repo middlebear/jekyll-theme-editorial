@@ -1,0 +1,22 @@
+{%-comment-%}
+  use `site.scripts` if `_data/scripts.yml` is not present, since theme data 
+  files aren't generally available to sites
+{%-endcomment-%}
+
+{%-assign scripts = site.data.scripts | default: site.scripts-%}
+{% for script in scripts-%}
+  {%-if script.type %}
+    {% assign script_type = script.type | prepend: " type='" | append: "'" %}
+  {% else %}
+    {%-assign script_type = "" %}
+  {%-endif %}
+    <script src="{{-script.path | default: site.script_path-}}{{-script.file-}}"{{ script_type-}}></script>
+{%-endfor %}
+{%-if site.analytics.goatcounter.code != "" and site.analytics.goatcounter.code %}
+  {%-if site.analytics.goatcounter.allow_local %}
+    <script type="text/javascript">    
+      window.goatcounter = { allow_local: true }
+    </script>
+  {%-endif %}
+    <script data-goatcounter="https://{{-site.analytics.goatcounter.code-}}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+{%-endif %}

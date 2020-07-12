@@ -1,0 +1,22 @@
+{% if paginator.total_pages > 1 and site.paginate %}
+  <div class="pager">
+    <ul class="pagination">
+      <li><a href="{{-paginator.previous_page_path-}}" class="previous-page button{%-unless paginator.previous_page %} disabled{%-endunless-%}">&laquo; Prev</a></li>
+  {%-for page in (1..paginator.total_pages) %}
+    {%-if page == paginator.page %}
+      <li><div class="current-page page active">{{-paginator.page-}}</div></li>
+    {% elsif page == 1 %}
+      <li><a href="{{-site.paginate_path | replace: ':num', '' | replace: '//', '/'-}}" class="page">{{-page-}}</a></li>
+    {%-elsif page == paginator.previous_page or page == paginator.next_page %}
+      <li><a href="{{-site.paginate_path | replace: ':num', page-}}" class="page">{{-page-}}</a></li>
+    {%-else %}
+      {%-assign skip_pages_max = paginator.total_pages | minus: 3 %}
+      {%-if paginator.total_pages > 7 and page == 4 or page == skip_pages_max-%}{%-unless paginator.page < 3 and page == 4-%}{%-unless paginator.page > skip_pages_max and page == skip_pages_max-%}<li>...</li>{%-endunless-%}{%-endunless-%}{%-endif-%}
+      {%-if paginator.total_pages > 7 and page > 3 and page <= skip_pages_max-%}{%-continue-%}{%-endif-%}
+      <li><a href="{{-site.paginate_path | replace: ':num', page-}}" class="page">{{-page-}}</a></li>
+    {%-endif %}
+  {%-endfor %}
+      <li><a href="{{-paginator.next_page_path-}}" class="next-page button{%-unless paginator.next_page %} disabled{%-endunless-%}">Next &raquo;</a></li>
+    </ul>
+  </div>
+{%-endif %}

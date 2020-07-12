@@ -1,0 +1,6 @@
+{%-assign dt_format       = include.date_format   | site.date_format | default: "%b %-d, %Y"-%}
+{%-assign lead_in         = include.lead_in       | default: '<i class="far fa-edit"></i> &nbsp;'-%}
+{%-assign date_modified   = include.item_date     | default: page.last_modified_at | default: page.modified_date | date_to_xmlschema-%}
+{%-comment-%}{% include item_date.html item_date=modified_date date_format='%b %-d, %Y' lead_in='last modified: ' itemprop='dateModified' date_class='modified-dateline dt-modified' %}{%-endcomment-%}
+
+{% include item_date.html item_date=date_modified date_format=dt_format lead_in=lead_in itemprop='dateModified' date_class='modified-dateline dt-modified' %}

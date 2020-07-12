@@ -1,0 +1,12 @@
+{%-assign title_template  = include.title_template  | default: "Read ':item_title'"-%}
+{%-assign separator       = include.separator       | default: "-&nbsp;"-%}
+{%-assign list_item       = post | default: project | default: pg | default: page-%}
+{%-assign item_authors    = post.author | default: project.author | default: pg.author | default: page.author-%}
+              <li{%-if include.li_class %} class="{{-include.li_class-}}"{%-endif-%}>
+                <a href="{{-list_item.url-}}" title="{{-title_template | replace: ':item_title', list_item.title-}}'">{{-list_item.title-}}</a>
+              {%-if site.show.authors and site.show.page_authors and pg or page %}
+                {{ separator-}}{%-include item_authors.html authors=item_authors-%}
+              {%-elsif site.show.authors and post or project %}
+                {{ separator-}}{%-include item_authors.html authors=item_authors-%}
+              {%-endif %}
+              </li>

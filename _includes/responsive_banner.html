@@ -1,0 +1,20 @@
+{%-comment-%}
+uses parent page settings or a special parent page.banner hash for more flexibility & specificity
+(parent) page: [title, subtitle, description, etc.]
+  banner: [header, subheader, content, etc.]
+{%-endcomment-%}
+<section id="banner">
+        <div class="content">
+          <header>
+            <h1>{{-page.banner.header   | default: page.title     | default: site.title-}}</h1>
+            <p>{{-page.banner.subheader | default: page.subtitle  | default: site.tagline-}}</p>
+          </header>
+          <p>{{-page.banner.content   | default: page.description | default: site.description-}}</p>
+          <ul class="actions">
+            <li><a href="{{-page.banner.url | default: site.url-}}" title="{{-page.banner.link_title-}}" class="button big">{{-page.banner.button_text-}}</a></li>
+          </ul>
+        </div>
+        <figure class="image object">
+          <img src="{{-site.image_path-}}{{-page.banner.image | default: page.images.banner.file | default: page.images.banner | default: page.image-}}" alt="{{-page.banner.alt_text | default: page.images.banner.alt_text | default: page.images.alt_text | default: page.alt_text-}}" title="{{-page.banner.image_title | default: page.images.banner.title | default: page.images.title | default: page.image_title-}}"/>
+        </figure>
+</section>

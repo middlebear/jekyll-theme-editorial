@@ -1,0 +1,133 @@
+---
+title:            Tags
+date:             2020-02-03 01:23:45 -0800
+permalink:        /tags/      # trailing slash makes it an `index.html` file inside the `/tags/` directory, rather than a `tags.html` file in the root
+# TODO: add tag pages for project- and page-specific tags, or merge project/page tags into site tags collection
+# NOTE: site.tags is a collection of documents for which tag.first is the tag itself
+---
+
+{%-if site.plugins contains 'jekyll-archives'-%}{%-assign archives_available = true-%}
+                                      {%-else-%}{%-assign archives_available = false-%}{%-endif-%}
+{%-assign sorted_tags         = site.tags           | sort-%}
+{%-assign published_projects  = site.projects       | where: 'published', true-%}
+{%-assign published_pages     = site.pages          | where: 'published', true-%}
+{%-assign project_tags        = published_projects  | map: 'tags' | join: '-----' | split: '-----'  | uniq-%}
+{%-assign page_tags           = published_pages     | map: 'tags' | join: '-----' | split: '-----'  | uniq-%}
+{%-assign merged_tags         = project_tags        | concat: page_tags           | uniq            | sort-%}
+
+<p>These are the tags used on <a href="{{-site.url-}}">{{-site.title-}}</a> &nbsp;(number of &nbsp;<i class="far fa-sticky-note" style="font-size: 0.9em;"></i>&nbsp;posts{%-if published_projects != empty or published_pages != empty %} / &nbsp;<i class="fas fa-project-diagram" style="font-size: 0.7em;"></i>&nbsp;projects{%-if published_pages != empty %} / &nbsp;<i class="far fa-file-alt" style="font-size: 0.8em;"></i>&nbsp;pages{%-endif-%}{%-endif-%}).</p>
+<div class="row gtr-uniform">
+  <div class="col-8 col-12-small">
+    <h2>Site-wide Tags</h2>
+    <ul>
+      {%-for tag in sorted_tags %}
+      {%-assign projects = published_projects | where_exp: 'project', "project.tags contains tag.first"-%}
+      {%-assign pages    = published_pages    | where_exp: 'pg', "pg.tags contains tag.first"-%}
+      <li>
+        {% if archives_available-%}
+        <a href="/tags/{{-tag | first | slugify-}}" title="Articles tagged '{{-tag | first-}}'">{{-tag | first-}}</a>
+        &nbsp; ({{-tag | last | size }}{%-if projects != empty or pages != empty %} / {{ projects | size }}{%-if pages != empty %} / {{ pages | size-}}{%-endif-%}{%-endif-%})
+        {%-else-%}
+        <strong id="{{-tag | first-}}" title="Articles tagged '{{-tag | first-}}'">{{-tag | first-}}</strong>
+        &nbsp; ({{-tag | last | size }}{%-if projects != empty or pages != empty %} / {{ projects | size }}{%-if pages != empty %} / {{ pages | size-}}{%-endif-%}{%-endif-%})
+        <ul class="compact">
+          {% for post in tag.last-%}
+            {% include list_item.html li_class="post" title_template="Check out the ':item_title' post"-%}
+          {%-endfor %}
+          {% for project in projects-%}
+            {% include list_item.html li_class="project" title_template="Check out the ':item_title' project"-%}
+          {%-endfor %}
+          {% for page in pages-%}
+            {% include list_item.html li_class="page" title_template="Check out the ':item_title' page"-%}
+          {%-endfor %}
+        </ul>
+        {%-endif-%}
+      </li>
+      {%-endfor %}
+    </ul>
+
+    {% if project_tags != empty-%}
+      <h2 class="tight" title="These are project tags that don't appear as site-wide, post tags"><i class="fas fa-project-diagram" style="font-size: 0.7em;"></i>&nbsp; Project-specific</h2>
+      {% if site.show.alt_archive_links-%}
+      <ul>
+      {% for tag in project_tags-%}
+        {%-if site.tags contains tag-%}{%-continue-%}{%-endif-%}
+        {%-assign projects = published_projects | where_exp: 'project', "project.tags contains tag"-%}
+        <li><a href="/tags/{{-tag | slugify-}}" title="'{{-tag | capitalize-}}' projects">{{-tag-}}</a> &nbsp;({{-projects.size-}})</li>
+      {%-endfor %}
+      </ul>
+      {%-else-%}
+        {% for tag in project_tags-%}
+          {%-if site.tags contains tag-%}{%-continue-%}{%-endif-%}
+          {%-assign projects = published_projects | where_exp: 'project', "project.tags contains tag"-%}
+        <h3 class="tight" title="'{{-tag | capitalize-}}' projects">{{-tag-}}</h3>
+        <ol>
+        {% for project in projects-%}
+          {% include list_item.html title_template="Check out the ':item_title' project"-%}
+        {%-endfor %}
+        </ol>
+        {%-endfor %}
+      {% endif-%}
+    {% endif %}
+
+    {% if page_tags != empty-%}
+      <h2 class="tight" title="These are page tags that don't appear as site-wide, post tags"><i class="far fa-file-alt" style="font-size: 0.8em;"></i>&nbsp; Page-specific</h2>
+      {% if site.show.alt_archive_links-%}
+      <ul>
+      {% for tag in page_tags-%}
+        {% if site.tags contains tag-%}{%-continue-%}{%-endif-%}
+        {%-assign site_pages = published_pages | where_exp: 'page', "page.tags contains tag"-%}
+        <li><a href="/tags/{{-tag | slugify-}}" title="'{{-tag | capitalize-}}' pages">{{-tag-}}</a> &nbsp;({{-site_pages.size-}})</li>
+      {%-endfor %}
+      </ul>
+      {%-else-%}
+        {% for tag in page_tags-%}
+          {%-if site.tags contains tag-%}{%-continue-%}{%-endif-%}
+          {%-assign pages = published_pages | where_exp: 'pg', "pg.tags contains tag"-%}
+        <h3 class="tight" title="'{{-tag | capitalize-}}' pages">{{-tag-}}</h3>
+        <ol>
+          {% for pg in pages-%}
+          <li><a href="{{-pg.url-}}" title="Check out the '{{-pg.title-}}' page">{{-pg.title-}}</a></li>
+          {%-endfor %}
+        </ol>
+        {%-endfor %}
+      {% endif-%}
+    {% endif %}
+  </div>
+  <aside class="column col-4 col-12-small">
+    <h2>Tag Cloud</h2>
+    <ul class="inline tags">
+    {%-for tag in site.tags %}
+      <li>
+        {%-if archives_available-%}
+        <a href="/tags/{{-tag | first | slugify-}}" title="Articles tagged '{{-tag | first-}}'" class="pill button" style="font-size: {{ tag | last | size | times:10 | plus:75-}}%; margin: 0.1rem;">{{-tag | first }} ({{-tag | last | size-}})</a>
+        {%-else-%}
+        <span title="Articles tagged '{{-tag | first-}}'" class="pill button" style="font-size: {{ tag | last | size | times:10 | plus:75-}}%; margin: 0.1rem;">{{-tag | first }} ({{-tag | last | size-}})</span>
+        {%-endif-%}
+      </li>
+    {%-endfor %}
+    {% if project_tags != empty-%}
+    {% for tag in project_tags %}
+      {% if site.tags contains tag-%}{%-continue-%}{%-endif-%}
+      {%-assign projects = published_projects | where_exp: 'project', "project.tags contains tag"-%}
+      {% if site.show.alt_archive_links-%}
+      <li><a href="/tags/{{-tag | slugify-}}" title="Projects tagged '{{-tag-}}'" class="pill button" style="font-size: {{ projects.size | times:10 | plus:75-}}%; margin: 0.1rem;">{{-tag }} ({{-projects.size-}})</a></li>
+      {%-else-%}
+      <li title="Projects tagged '{{-tag-}}'" class="pill button" style="font-size: {{ projects.size | times:10 | plus:75-}}%; margin: 0.1rem;">{{-tag }} ({{-projects.size-}})</li>
+      {% endif-%}
+    {% endfor %}
+    {% endif %}
+    {% if page_tags != empty-%}
+    {% for tag in page_tags %}
+      {% if site.tags contains tag or tag == ""-%}{%-continue-%}{%-endif-%}
+      {%-assign site_pages = published_pages | where_exp: 'page', "page.tags contains tag"-%}
+      {% if site.show.alt_archive_links-%}
+      <li><a href="/tags/{{-tag | slugify-}}" title="Pages tagged '{{-tag-}}'" class="pill button" style="font-size: {{ site_pages.size | times:10 | plus:75-}}%; margin: 0.1rem;">{{-tag }} ({{-site_pages.size-}})</a></li>
+      {%-else-%}
+      <li title="Pages tagged '{{-tag-}}'" class="pill button" style="font-size: {{ site_pages.size | times:10 | plus:75-}}%; margin: 0.1rem;">{{-tag }} ({{-site_pages.size-}})</li>
+      {% endif-%}
+    {% endfor %}
+    {% endif %}
+    </ul>
+  </aside>
+</div>

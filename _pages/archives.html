@@ -1,0 +1,134 @@
+---
+title:            Post Archive
+date:             2020-01-04 01:23:45 -0800
+permalink:        /archives/  # trailing slash makes it an `index.html` file inside the `/archives/` directory, rather than an `archives.html` file in the root
+excerpt:          ""      # NOTE: this fixes liquid "'if' tag was never closed included" error: https://jekyllrb.com/docs/troubleshooting/#excerpts
+# dependencies:
+#   site.plugins          to test whether jekyll-archives is activated or not
+#   site.url              used in the header message
+#   site.title            used in the header message
+#   site.archives_root    the root path of the archives (e.g., '', '/posts', '/blog', '/archives', etc.) to build url links
+#   site.posts            posts for the archive
+#   site.jekyll-archives.enabled - array for the type(s) of archives desired: [day, month, year]
+# local:
+#   firsts, seconds, thirds - arrays for ordinalizing days in dates
+# NOTE: ordinalization inspired by http://alanwsmith.com/jekyll-liquid-date-formatting-examples
+# TODO: add other collections (_projects, _pages) to the archives
+---
+
+{%-assign archived = site.jekyll-archives.enabled-%}
+{%-if site.plugins contains 'jekyll-archives'-%}{%-assign archives_available = true-%}{%-else-%}{%-assign archives_available = false-%}{%-endif-%}
+{%-if archived contains 'year'-%}{%-unless archived contains 'month'-%}{%-unless archived contains 'day'-%}{%-assign is_year_archive = true-%}{%-endunless-%}{%-endunless-%}{%-endif-%}
+{%-if site.posts-%}
+  {%-assign archives_root       = site.archives_root  | default: ''-%}
+  {%-assign posts_by_year       = site.posts          | group_by_exp: 'post',   "post.date    | date: '%Y'"-%}
+{%-comment-%}
+  {%-assign published_projects  = site.projects       | where: 'published', true-%}
+  {%-assign published_pages     = site.pages          | where: 'published', true-%}
+  {%-assign projects_by_year    = published_projects  | group_by_exp: 'project',"project.date | date: '%Y'"-%}
+  {%-assign pages_by_year       = published_pages     | group_by_exp: 'pg',     "pg.date      | date: '%Y'"-%}
+{%-endcomment-%}
+  {%-assign firsts              = "1,21,31"           | split: ','-%}
+  {%-assign seconds             = "2,22"              | split: ','-%}
+  {%-assign thirds              = "3,23"              | split: ','-%}
+
+<!-- Archives -->
+            <p>This is the archive of posts for <a href="{{-site.url-}}">{{-site.title-}}</a> &nbsp;(number of &nbsp;<i class="far fa-sticky-note" style="font-size: 0.9em;"></i>&nbsp;posts{%-comment-%}{%-if published_projects or published_pages %} / &nbsp;<i class="fas fa-project-diagram" style="font-size: 0.7em;"></i>&nbsp;projects{%-if published_pages %} / &nbsp;<i class="far fa-file-alt" style="font-size: 0.8em;"></i>&nbsp;pages{%-endif-%}{%-endif-%}{%-endcomment-%}).</p>
+        {%-if archived contains 'year' or archived contains 'month' or archived contains 'day'-%}
+          {%-for year in posts_by_year %}
+            {%-assign year_url = site.jekyll-archives.permalinks.year | replace: ':year', year.name-%}
+{%-comment-%}
+            {%-assign year_projects = projects_by_year  | find: 'name', year.name-%}
+            {%-assign year_pages    = pages_by_year     | find: 'name', year.name-%}
+{%-endcomment-%}
+            <h2{%-if is_year_archive %} class="tight"{%-endif-%}>
+              {% if archives_available and archived contains 'year'-%}
+              <a href="{{-year_url-}}" title="{{-year.name }} articles">{{-year.name-}}</a>
+              {%-else-%}
+              <span title="Articles from year '{{-year.name-}}'">{{-year.name-}}</span>
+              {%-endif %}
+              {%-if year.items.size > 3 %}<span class="smaller header-aside"> &nbsp;({{-year.items | size }}{%-comment-%}{%-if year_projects.items or year_pages.items %} / {{ year_projects.items | size }} / {{ year_pages.items | size-}}{%-endif-%}{%-endcomment-%})</span>{% endif-%}
+            </h2>
+            {%-if archived contains 'month' or archived contains 'day'-%}
+              {%-assign posts_by_month    = year.items          | sort: 'date'  | group_by_exp: "post",    "post.date    | date: '%B'"-%}
+{%-comment-%}
+              {%-assign projects_by_month = year_projects.items | sort: 'date'  | group_by_exp: "project", "project.date | date: '%B'"-%}
+              {%-assign pages_by_month    = year_pages.items    | sort: 'date'  | group_by_exp: "pg",      "pg.date      | date: '%B'"-%}
+{%-endcomment-%}
+                {%-for month in posts_by_month %}
+                  {%-assign month_name = month.name | date: '%m'-%}
+                  {%-assign month_url = site.jekyll-archives.permalinks.month | replace: ':year', year.name | replace: ':month', month_name-%}
+{%-comment-%}
+                  {%-assign month_projects  = projects_by_month | find: 'name', month.name-%}
+                  {%-assign month_pages     = pages_by_month    | find: 'name', month.name-%}
+{%-endcomment-%}
+                  <h3 class="tight">
+                    {% if archives_available and archived contains 'month'-%}
+                    <a href="{{-month_url-}}" title="{{-month.name }} {{ year.name }} articles">{{-month.name }} {{ year.name-}}</a>
+                    {%-else-%}
+                    <span title="Articles from {{-month.name }} {{ year.name }}">{{-month.name }} {{ year.name-}}</span>
+                    {%-endif %}
+                    {%-if month.items.size > 3 %}<span class="smaller header-aside"> &nbsp;({{-month.items | size }}{%-comment-%}{%-if month_projects.items or month_pages.items %} / {{ month_projects.items | size }} / {{ month_pages.items | size-}}{%-endif-%}{%-endcomment-%})</span>{% endif-%}
+                  </h3>
+                {%-if archived contains 'day'-%}
+                  {%-assign posts_by_day = month.items | sort: 'date' | group_by_exp: "post", "post.date | date: '%-d'"-%}
+                  {%-for day in posts_by_day %}
+                    {%-if firsts contains day.name-%}{%-assign suffix='st'-%}{%-elsif seconds contains day.name-%}{%-assign suffix='nd'-%}{%-elsif thirds contains day.name-%}{%-assign suffix='rd'-%}{%-else-%}{%-assign suffix='th'-%}{%-endif-%}
+                    {%-assign day_name = day.name | plus: 0-%}
+                    {%-capture day_url-%}{{-month_url-}}/{%-if day_name < 10-%}0{%-endif-%}{{-day.name-}}{%-endcapture-%}
+                      <h4 class="tight" title="{{-month.name | date: '%b' }} {{ day.name-}}, {{ year.name | date: '%Y' }} articles">
+                        <a href="{{-day_url-}}">{{-month.name | date: '%b' }} {{ day.name-}}, {{ year.name }}</a>
+                        {%-if day.items.size > 3 %}<span class="smaller header-aside"> &nbsp;({{-day.items | size }}{%-comment-%}{%-if day_projects.items or day_pages.items %} / {{ day_projects.items | size }} / {{ day_pages.items | size-}}{%-endif-%}{%-endcomment-%})</span>{% endif-%}
+                      </h4>
+                      <ul class="compact plain">
+                      {%-for post in day.items %}
+                        {% include list_item.html-%}
+                      {%-endfor %}
+                      </ul>
+                  {%-endfor %}
+                {%-else %}
+                  <ol>
+                  {%-for post in month.items %}
+                    {% include list_item.html-%}
+                  {%-endfor %}
+{%-comment-%}
+                  {%-for project in month_projects.items %}
+                    {% include list_item.html li_class="project"-%}
+                  {%-endfor %}
+                  {%-for pg in month_pages.items %}
+                    {% include list_item.html li_class="page"-%}
+                  {%-endfor %}
+{%-endcomment-%}
+                  </ol>
+                {%-endif %}
+              {%-endfor %}
+            {%-else %}
+              <ol>
+              {%-for post in year.items %}
+                {% include list_item.html-%}
+              {%-endfor %}
+{%-comment-%}
+              {%-for project in year_projects.items %}
+                {% include list_item.html li_class="project"-%}
+              {%-endfor %}
+              {%-for pg in year_pages.items %}
+                {% include list_item.html li_class="page"-%}
+              {%-endfor %}
+{%-endcomment-%}
+              </ol>
+            {%-endif %}
+{%-comment-%}
+              <ol>
+              {%-for project in year_projects.items %}
+                {% include list_item.html li_class="project"-%} - {{ project.date }}
+              {%-endfor %}
+              </ol>
+              <ol>
+              {%-for pg in year_pages.items %}
+                {% include list_item.html li_class="page"-%} - {{ pg.date }}
+              {%-endfor %}
+              </ol>
+{%-endcomment-%}
+          {%-endfor %}
+        {%-endif %}
+{%-endif %}

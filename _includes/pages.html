@@ -1,0 +1,79 @@
+{%-comment-%}
+lists pages as section cards given a pages array
+
+inputs:                   none
+dependencies:
+  pages:                  the pages array to render
+  site.static_files:      to lookup and make sure a placeholder.png file exists
+  site.show.authors:      to determine whether to show authors
+  site.show.page_authors: to determine whether to show authors
+  site.people:            to lookup authors in the people array
+  site.title:             to use as the author, as a last resort
+local:
+  published_pages:        pages filtered for `published==true`
+  placeholder:            placeholder.png file to use in case no other page image is available
+  auth:                   the author's handle, used for unpublished authors in place of their name
+  author:                 the looked-up author in site.people
+{%-endcomment-%}
+{%-assign published_pages = pages             | where: 'published', true-%}
+
+      {%-if published_pages != empty %}
+        {%-for pg in published_pages %}
+            <article itemid="{{-pg.url | absolute_url-}}" class="h-entry page-card row gtr-50 gtr-uniform" itemscope itemtype="http://schema.org/Article">
+            {% if image or placeholder.name-%}
+              <div class="col-4 col-12-small">
+                <figure>
+                  <a href="{{-pg.url-}}" class="image fit" title="Learn more about '{{-pg.title-}}'">
+                    {% include item_image.html-%}
+                  </a>
+                </figure>
+                <div class="snug smaller categories">{%-include categories.html %}</div>
+              </div>
+            {%-endif %}
+              <div class="col-8 col-12-small">
+                {%-assign modified_date = pg.modified_date | default: pg.last_modified_at-%}
+              {%-if modified_date-%}
+                {% include date_modified.html item_date=modified_date lead_in='last modified: '-%}
+              {%-endif %}
+                <header class="tight">
+                  <span class="header-aside">{% include item_date.html item_date=pg.date %}</span>
+                  <h3><a href="{{-pg.url-}}" itemprop="name" class="u-url p-name" title="Learn more about '{{-pg.title-}}'">{{-pg.title-}}</a></h3>
+                  <p class="subtitle p-subtitle" itemprop="alternativeHeadline">{{-pg.subtitle-}}</p>
+                {%-if site.show.page_authors and site.show.authors and pg.author or pg.location %}
+                  <p class="byline">
+                  {%-if site.show.authors %}
+                    {%-for auth in pg.author-%}
+                      {%-assign author = site.people | find: 'handle', auth-%}
+                      {%-if author.published and author.url-%}
+                        <a href="{{-author.url-}}" rel="author" itemprop="author" class="u-author p-author" title="Read {{ author.name | split: ' ' | first-}}'s bio">{{-author.name-}}</a>
+                      {%-elsif author.published-%}
+                        <span itemprop="author" class="p-author">{{-author.name-}}</span>
+                      {%-else-%}
+                        <span itemprop="author" class="p-author">{{-auth-}}</span>
+                      {%-endif-%}
+                      {%-unless forloop.last %}, {% endunless-%}
+                    {%-else-%}
+                      <span itemprop="author" class="p-author">{{-site.title-}}</span>
+                    {%-endfor-%}
+                    {%-if pg.location and pg.author or site.title-%}{{-"&nbsp; | &nbsp;"-}}{%-endif-%}
+                  {%-endif %}
+                    {%-if pg.location %}
+                    <span class="p-location" itemprop="location" title="Post location">{{-pg.location-}}</span>
+                    {%-endif %}
+                  </p>
+                {%-endif-%}
+                </header>
+                {% if include.summary or pg.summary or pg.excerpt-%}
+                <div class="summary p-summary" itemprop="abstract">
+                {{ include.summary | default: pg.summary | default: pg.excerpt | markdownify }}
+                </div>
+                {%-endif %}
+                {%-include tags.html %}
+              </div>
+            </article>
+            <hr class="major"/>
+        {% endfor %}
+      {% else %}
+            <h2>Oof!</h2>
+            <p>It looks like there aren't any published pages here yet. Might you bug the site owner to create one for your look-see?</p>
+      {% endif %}

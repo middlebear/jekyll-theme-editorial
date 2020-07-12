@@ -1,0 +1,43 @@
+{%-comment-%} determininng the admin should not be tied to name (or email address)--maybe use a secret site.comment_key? {%-endcomment-%}
+{% assign comment_fragment = include.comment_fragment | append: "-" | append: forloop.index %}
+{%-assign nesting = include.nesting | plus: 1 %}
+
+              <!-- {{ include.nesting }} - {{ comment_fragment }} -->
+              <article id="{{-comment_fragment-}}"
+                class="js-comment p-comment h-entry {%-if comment.name == site.author.name-%} admin{%-endif-%}{%-unless include.comment_fragment == 'comment' %} child{%-endunless-%}"
+                data-id="{{-comment._id-}}"{%-if comment.parent_id != empty %} data-parent-id="{{-comment.parent_id-}}"{%-endif-%}>
+                <header class="comment-meta">
+                  <h3>
+                    <span class="p-author h-card" itemprop="name">{{-comment.name-}}</span>
+                    <span class="header-aside">
+                    {%-if comment.date-%}
+                      {%-if comment_fragment-%}
+                        <a href="{{-page.url-}}#{{-comment_fragment-}}" class="u-url" title="Permalink to this comment">{% include item_date.html date_format='%-d %b %Y' date_class=' ' %}</a>
+                      {%-else-%}
+                        {% include item_date.html date_format='%-d %b %Y' date_class=' ' %}
+                      {%-endif-%}
+                    {%-endif-%}
+                    </span>
+                  </h3>
+                  <a class="u-in-reply-to url" rel="in-reply-to" href="{{-page.url-}}{%-if comment.parent_fragment != empty-%}#{{-comment.parent_fragment-}}{%-endif-%}" hidden></a>
+                </header>
+                {% if site.comments.allow_markdown == true-%}
+                <section class="p-name e-content">
+                  {{ comment.message | markdownify }}
+                </section>
+                {% else -%}
+                <section class="p-name p-content">
+                  {{ comment.message }}
+                </section>
+                {%- endif %}
+            {%-if include.nesting < site.comments.max_nesting-%}
+                <div class="actions">
+                  <a rel="nofollow" class="js-reply button small solid icon fa-reply">Reply</a>&nbsp; to {{ comment.name }}
+                </div>
+                {% assign replies = site.data.comments[page.type][page.slug] | where: "parent_id", comment._id-%}
+                {%-assign replies = replies | sort: 'date'-%}
+              {% for comment in replies %}
+                {% include comment.html comment_fragment=comment_fragment parent_id=comment._id nesting=nesting %}
+              {% endfor %}
+            {%-endif %}
+              </article>

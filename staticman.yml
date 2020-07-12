@@ -1,0 +1,109 @@
+# Name of the property. You can have multiple properties with completely
+# different config blocks for different sections of your site.
+# For example, you can have one property to handle comment submission and
+# another one to handle posts.
+comments:
+  # (*) REQUIRED
+  #
+  # Names of the fields the form is allowed to submit. If a field that is
+  # not here is part of the request, an error will be thrown.
+  allowedFields:    ["name", "email", "message", "parent_id"]
+
+  # Names of required fields. If any of these isn't in the request or is empty,
+  # an error will be thrown.
+  requiredFields:   ["name", "message"]
+
+  # List of fields to be populated automatically by Staticman and included in
+  # the data file. Keys are the name of the field. The value can be an object
+  # with a `type` property, which configures the generated field, or any value
+  # to be used directly (e.g. a string, number or array)
+  generatedFields:
+    date:
+      type:         date
+      options:
+        format:     "iso8601"
+
+  # List of transformations to apply to any of the fields supplied. Keys are
+  # the name of the field and values are possible transformation types.
+  transforms:
+    email:          md5     # The email field will be MD5-hashed
+
+  # (*) REQUIRED
+  #
+  # Name of the branch being used. Must match the one sent in the URL of the
+  # request.
+  branch:           master
+
+  # Text to use as the commit message or pull request title. Accepts placeholders.
+  commitMessage:    "{fields.name}'s comment on {options.slug}"
+
+  # Whether entries need to be appproved before they are published to the main
+  # branch. If set to `true`, a pull request will be created for your approval.
+  # Otherwise, entries will be published to the main branch automatically.
+  moderation:       true
+  pullRequestBody:  "Dear human,\n\nHere's a new entry for your approval. :tada:\n\nMerge the pull request to accept it, or close it to send it away.\n\n:heart: Your friend [Staticman](https://staticman.net) :muscle:\n\n---\n"
+
+  # (*) REQUIRED
+  #
+  # Destination path (directory) for the data files. Accepts placeholders.
+  path:             "_data/comments/{options.type}/{options.slug}"
+  
+  # (*) REQUIRED
+  #
+  # Destination path (filename) for the data files. Accepts placeholders like {@id}
+  filename:         "{@date:YYYYMMDDhhmmss}-{fields.name}"
+
+  # The format of the generated data files. Accepted values are "json", "yaml"
+  # or "frontmatter"
+  format:           "yml"
+  extension:        "yml"
+
+  # Name of the site. Used in notification emails.
+  name:             "My blog"
+
+  # Notification settings. When enabled, users can choose to receive notifications
+  # via email when someone adds a reply or a new comment. This requires an account
+  # with Mailgun, which you can get for free at http://mailgun.com.
+  notifications:
+    # Enable notifications
+    enabled:        false
+
+    # (!) ENCRYPTED
+    #
+    # Mailgun API key (encrypted)
+    # apiKey:         "1q2w3e4r"
+
+    # (!) ENCRYPTED
+    #
+    # Mailgun domain (encrypted)
+    # domain:         "4r3e2w1q"
+
+  # akismet spam protection - requires an akismet account
+  akismet:
+    enabled:        false
+    author:         ""
+    authorEmail:    ""
+    authorUrl:      ""
+    content:        ""
+    type:           "comment"
+
+  # google recaptcha spam protection - requires a google account
+  reCaptcha:
+    enabled:        false
+    # siteKey:        6LcWstQUAAAAALoGBcmKsgCFbMQqkiGiEt361nK1
+    # secret:         eteZTgxDkxg3sbrLwAPwiaAcdUh/zFRQQzjlmxdurvWvGqaFLOOBwFWUsA6NcMyoeAB1z0kl93Pdno4v0RelTKFXiwrcLAdQaOpR1Ckz7mim/9p8/Jvu7I00d0/OO3ZUPpDw5NGP6f7SKafKCT53dAzWyiWvpt7JfbnUMUubfA0rUTMGCToBIya/IrMVOPkjc1N25k0fz3uigElI6n1R2MwVOxmrpWyl99r8fpx8evKL7R4ycUkaL+CyUL4fCrfaAvOfyGnNG5eJQhv188OXpRuaxut2sXs273WH5BaDoU0vEGSMo9RrQwYl3oNTgb9aFTOhd5Npz+EpZuul+jwuCnZwDXQ2uc7i8+hDacSJy43IrTxrWkxANik3BvUIZHCKbrpKFUxQfjYCX8J6pjIt5uSpqxRfYDQwo8mKAHX9Fhg/r5a+e2NPG5HWZy6LEkAS4ny3l5lKGmM3EuJWzSOpYTpCXAbVTKfkjvd0gACJnbBhNR21xKfHfWhmH9bJE8/QqKrajqO3Myg+JHhMwRp/r7tNkuGWUhN3UBvYZRSpiSi53/fQvrYDhOQSPKSoMlbKO0AilrQj7mUxwBrpYAm0GP/5ptUIMDbUedXIDWEPyxLYSnNXrTJ/A71w8u1Fw3mURquylVUUP4si172SBOMZl/0auV6geG5UqXqvPxRxgFQ=
+
+  # Where to require github authentication for entries
+  githubAuth:
+    # Whether GitHub Auth is required for an entry to be accepted.
+    required:       false
+
+    # (!) ENCRYPTED
+    #
+    # The GitHub Application client ID used for authentication. (encrypted)
+    clientId:       # GITHUB_AUTH_CLIENT_ID
+
+    # (!) ENCRYPTED
+    #
+    # The GitHub Application client secret used for authentication. (encrypted)
+    clientSecret:   # GITHUB_AUTH_CLIENT_SECRET

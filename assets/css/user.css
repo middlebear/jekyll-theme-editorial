@@ -1,0 +1,640 @@
+/*
+  Middle Bear modifications to Editorial by HTML5 UP
+  middlebear.org | github.com/middlebear
+  Free for personal and commercial use under the CCA 3.0 license (/license.txt 
+  and http://creativecommons.org/licenses/by/3.0/)
+  
+  Use this file to make edits to the base styles of Editorial found in main.css
+  To do so, copy this file to your /assets/css directory and edit as you wish
+  This encapsulates your changes and makes it easier to upgrade the base styles 
+  if any improvements are released in the future (doubtful, but we can dream!)
+*/
+
+/* Add main to reset list in main.scss */
+main {
+  margin:         0;
+  padding:        0;
+  border:         0;
+  font-size:      100%;
+  font:           inherit;
+  vertical-align: baseline; }
+
+
+/********************
+ * Type 
+ ********************/
+
+/*body, input, select, textarea {
+  color: #999;
+  font-size: 14pt;
+  line-height: 1.5; }
+  @media screen and (max-width: 1680px) {
+    body, input, select, textarea {
+      font-size: 12pt; } }
+  @media screen and (max-width: 1280px) {
+    body, input, select, textarea {
+      font-size: 11pt; } }
+  @media screen and (max-width: 360px) {
+    body, input, select, textarea {
+      font-size: 10pt; } }
+*/
+p {         margin:       0 0 1.5em 0; }
+pre code {  white-space:  pre-wrap; } /* fixes code blocks breaking layout */
+/*h1 { font-size: 3.0em;  }
+h2 { font-size: 1.75em; }
+h3 { font-size: 1.25em; }
+h4 { font-size: 1.1em;  }
+h5 { font-size: 0.9em;  }
+h6 { font-size: 0.7em;  }
+*/
+
+
+/* Adds the external link icon to headers when linked to an external site */
+h1 > a[rel*='external']:not(.icon):not([href^='#']):not([href^='/'])::after {
+  font: normal normal normal 1rem/1 FontAwesome;
+  vertical-align: super;
+  content: " \f08e";
+}
+
+/* Adds compact and sigil options to horizontal rules */
+hr.compact  { margin: 1em; }
+hr.sigil {
+  margin: 3em 5em 4em;
+  text-align: center;
+}
+hr.sigil::after {
+  font: normal normal normal 2em/1 FontAwesome;
+  position: relative;
+  top: 0.5em;
+  display: inline-block;
+  padding: 0 2em;
+  content: '\f12';
+  /*content: '\f0c4\f04\f12';*/
+  color: #333;
+  background: #fff;
+}
+
+/* utility style classes */
+.float-right  { float: right; }
+.underline    { text-decoration: underline; }
+.red          { color: red; }
+
+/* deemphasize linked handles in page headers */
+.handle > a {
+  color: #7f888f;
+  border-bottom: none;
+}
+
+
+/********************
+ * Section/Article 
+ ********************/
+
+/* adjust headers for less space and to incorporate more info */
+header p { margin-top: -2em; }
+header.main { margin-bottom: 2em; }
+
+/* give heaader divs the same basic treatment as header paragraphs */
+header div {
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
+  letter-spacing: 0.075em;
+  text-transform: uppercase; }
+
+header p.tight, header.main p.tight {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  letter-spacing: 0.075em;
+  margin: -2em 0 2em 0;
+  text-transform: none; }
+
+/* give subtitles some extra size */
+header.tight + h2.subheader { font-size: 1.1em; margin: 0; }
+header.main .subtitle { font-size: 1.1em; }
+/*header p.tight, header.main p.tight {
+  margin: -2em 0 2em 0; }*/
+
+@media screen and (max-width: 736px) {
+  header p { margin-top: -1em; }
+  header p.tight, header.main p.tight {
+    margin: -1em 0 1em 0; } 
+    figure + .tight, figure + .snug { margin-top: -2em; }
+}
+
+header .byline {
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: 0.075em;
+  text-transform: none;
+}
+header.main .byline a {
+  color: inherit; }
+
+header.tight h1, header.tight h2, header.tight h3, header.tight p, header.tight div {
+  margin: 0; }
+
+header.major > :last-child {
+  border-bottom: solid 3px #f56a6a;
+  display: inline-block;
+  margin: 0 0 2em 0;
+  padding: 0 0.75em 0.5em 0; }
+
+header.main > h1:last-child {
+  margin-bottom: inherit; }
+/*header.main > :last-child:not[h1] {
+  margin: 0 0 1em 0; }*/
+
+/* adjustments for authors sections after page content */
+.post-nav + section.authors, .inline.tags + hr.compact + section.authors { margin-top: 3em; }
+header.section-header > h3 {
+  border-bottom: solid 1px rgba(210, 215, 217, 0.75); }
+
+/* utility style classes */
+.blurb { font-size: larger; margin: -1em 0 1em 0; }
+.snug  { margin-top: 0; margin-bottom: 1em; padding-top: 0; }
+.tight { margin: 0; padding: 0; }
+.small-caps { font-variant: small-caps; }
+.smaller { font-size: smaller; }
+
+/* reduce visual spread between figure and a .snug element right beneath it */
+figure + .snug { margin: -2em 0 2em 0; }
+/*figure + .tight, figure + .snug { margin-top: -2em; }*/
+
+/* styling for subheader headers and p-location text elements */
+.subheader, .p-location { font-variant: small-caps; }
+
+/* *-cards are small articles */
+:is(.post-card, .project-card, .page-card).row header.tight {
+  margin-bottom: 1em; }
+:is(.post-card, .project-card, .page-card).row figure {
+  padding-right: 0.5em; }
+.post > header .header-aside, 
+.post-card header .header-aside, :is(.post-card, .project-card, .page-card).row header .header-aside {
+  float: right;
+  text-align: right; }
+@media screen and (max-width: 480px) {
+  .dayname { display: none; }
+}
+
+/* h-cards for authors use flexbox for layout */    
+article.h-card[itemprop='author'] {
+  display: flex; 
+  flex-flow: row wrap; }
+  @media screen and (max-width: 640px) {
+    article.h-card[itemprop='author'] {
+      flex-flow: column wrap; } }
+  article.h-card[itemprop='author'] :first-child {
+    flex: 2; }
+  article.h-card[itemprop='author'] :last-child {
+    flex: 7; }
+
+/* custom header elements for *-cards */    
+.header-subtitle {
+  margin: -1em 0 1em 0; }
+.header-aside {
+  color: gray;
+  font-weight: 400; }
+
+
+/********************
+ * Aside Column
+ ********************/
+
+.row aside.column {
+  border-left: solid 1px rgba(210, 215, 217, 0.75);
+  margin-top: 1.5em;
+  padding-top: 0;
+}
+
+
+/********************
+ * Pullquote
+ via: https://miekd.com/articles/pull-quotes-with-html5-and-css/
+ using svg: https://css-tricks.com/using-svg/
+ ********************/
+
+aside.pullquote, :not(aside).pullquote:before {
+  font:         italic normal 700 1.5rem/1.5 "Roboto Slab", serif;
+  color:        #3d4449;
+  content:      attr(data-pullquote);
+  float:        right;
+  clear:        right;
+  position:     relative;
+  width:        35vw;
+  max-width:    15em;
+  margin:       0    0    0    1rem;
+  padding:      1rem 1rem 1rem 3rem;
+  border-left:  solid 3px rgba(210, 215, 217, 0.5);
+  background:   top     left /3em no-repeat url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj48c3ZnIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxNjcgMTI1IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zOnNlcmlmPSJodHRwOi8vd3d3LnNlcmlmLmNvbS8iIHN0eWxlPSJmaWxsLXJ1bGU6ZXZlbm9kZDtjbGlwLXJ1bGU6ZXZlbm9kZDtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLW1pdGVybGltaXQ6MjsiPjxwYXRoIGlkPSJwYXRoMTg3MyIgZD0iTTEwMS4yMzEsMTExLjkzMmMtMjEuMjI5LC0yMy44MjcgLTYuNjA1LC02NS4zMDUgMTEuMDY4LC04MS4zMzljMTUuMDYyLC0xMy42NjUgNDAuMDIxLC0yNC44MzcgNDIuMzc0LC0yMC45MzNjMy43NCw2LjIwNiAtMTAuOTgyLDEwLjYxMiAtMjIuMDUxLDIwLjU3M2MtMTMuODE4LDE0Ljk0MiAtMTguNDU4LDIxLjY2IDAuNjYyLDMwLjA4OWMyMC40OTQsOS4yNDkgMjAuODg3LDE4LjI5NiAyMS41NDYsMjkuODA1YzEuNjU4LDI4Ljk3NCAtMzIuODc1LDQyLjUyOSAtNTMuNTk5LDIxLjgwNVoiIHN0eWxlPSJmaWxsOiNkYWRhZGE7ZmlsbC1ydWxlOm5vbnplcm87Ii8+PHBhdGggaWQ9InBhdGgxODc1IiBkPSJNMjEuMzQ2LDExMS41MTljLTIxLjIyOCwtMjMuODI3IC02LjYwNSwtNjUuMzA1IDExLjA2OSwtODEuMzM5YzE1LjA2MiwtMTMuNjY1IDQwLjAyLC0yNC44MzggNDIuMzczLC0yMC45MzRjMy43NDEsNi4yMDYgLTEwLjk4MiwxMC42MTIgLTIyLjA1MSwyMC41NzNjLTEzLjgxNywxNC45NDMgLTE4LjQ1NywyMS42NiAwLjY2MiwzMC4wOWMyMC40OTQsOS4yNDkgMjAuODg4LDE4LjI5NiAyMS41NDYsMjkuODA1YzEuNjU4LDI4Ljk3NCAtMzIuODc1LDQyLjUyOSAtNTMuNTk5LDIxLjgwNVoiIHN0eWxlPSJmaWxsOiNkYWRhZGE7ZmlsbC1ydWxlOm5vbnplcm87Ii8+PC9zdmc+"),
+                bottom  right/3em no-repeat url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj48c3ZnIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxNjcgMTI1IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zOnNlcmlmPSJodHRwOi8vd3d3LnNlcmlmLmNvbS8iIHN0eWxlPSJmaWxsLXJ1bGU6ZXZlbm9kZDtjbGlwLXJ1bGU6ZXZlbm9kZDtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLW1pdGVybGltaXQ6MjsiPjxwYXRoIGlkPSJwYXRoMTg3MyIgZD0iTTY0Ljg2LDE4LjQ1NGMyMS4yMjksMjMuODI4IDYuNjA2LDY1LjMwNSAtMTEuMDY4LDgxLjMzOWMtMTUuMDYyLDEzLjY2NSAtNDAuMDIsMjQuODM4IC00Mi4zNzMsMjAuOTM0Yy0zLjc0MSwtNi4yMDYgMTAuOTgyLC0xMC42MTIgMjIuMDUsLTIwLjU3M2MxMy44MTgsLTE0Ljk0MyAxOC40NTgsLTIxLjY2IC0wLjY2MSwtMzAuMDg5Yy0yMC40OTQsLTkuMjQ5IC0yMC44ODgsLTE4LjI5NiAtMjEuNTQ3LC0yOS44MDVjLTEuNjU3LC0yOC45NzUgMzIuODc2LC00Mi41MjkgNTMuNTk5LC0yMS44MDZaIiBzdHlsZT0iZmlsbDojZGFkYWRhO2ZpbGwtcnVsZTpub256ZXJvOyIvPjxwYXRoIGlkPSJwYXRoMTg3NSIgZD0iTTE0NC43NDUsMTguODY4YzIxLjIyOCwyMy44MjcgNi42MDUsNjUuMzA1IC0xMS4wNjgsODEuMzM5Yy0xNS4wNjMsMTMuNjY1IC00MC4wMjEsMjQuODM3IC00Mi4zNzQsMjAuOTM0Yy0zLjc0MSwtNi4yMDcgMTAuOTgyLC0xMC42MTMgMjIuMDUxLC0yMC41NzRjMTMuODE4LC0xNC45NDIgMTguNDU4LC0yMS42NTkgLTAuNjYyLC0zMC4wODljLTIwLjQ5NCwtOS4yNDkgLTIwLjg4OCwtMTguMjk2IC0yMS41NDYsLTI5LjgwNWMtMS42NTgsLTI4Ljk3NCAzMi44NzUsLTQyLjUyOSA1My41OTksLTIxLjgwNVoiIHN0eWxlPSJmaWxsOiNkYWRhZGE7ZmlsbC1ydWxlOm5vbnplcm87Ii8+PC9zdmc+");
+}
+
+@media screen and (max-width: 640px) {
+  aside.pullquote, :not(aside).pullquote:before {
+    font-size:  1.2rem; 
+    width:      40vw;
+    margin:     0.5rem 0  0.5rem 1rem;
+    padding:    1rem   0    1rem 2rem;
+  }
+}
+
+aside.pullquote > p {
+  margin-bottom: 0;
+}
+
+
+/********************
+ * List
+ ********************/
+
+/* like icons, allow inline lists, along with comma-separated values */
+ul.inline {
+  list-style: none;
+  padding-left: 0;
+  margin: 0; }
+  ul.inline.csv {
+    display: inline; }
+  ul.inline li {
+    padding-left: 0.2em;
+    display: inline-block; }
+  ul.inline.csv li {
+    padding-left: 0; }
+  ul.inline.csv li:not(:last-child):after {
+    content: ", "; }
+
+div.categories { margin-bottom: 0.5em; }
+figure + div.snug.categories ul.categories::before {
+  font: normal normal 900 1rem/1 "Font Awesome 5 Free";
+  vertical-align: text-bottom;
+  content: "\f105\00a0";
+}
+
+/* ul.categories are inline lists placed above the page title */
+ul.categories {
+  margin-bottom: 0.25em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase; }
+  ul.categories a {
+      color: inherit; }
+
+ul.compact  { margin-bottom: 1em; }
+ul.plain    { list-style: none; }
+
+/* safari accessibility fix for `list-style: none` lists */
+ul.inline li::before, ul.plain li::before {
+  content: "\200B"; }
+
+
+/********************
+ * Series
+ * via https://riaanhanekom.com/2018/03/01/setting-up-jekyll-related-posts-and-series
+ ********************/
+
+ aside.series {
+  float:        right;
+  position:     relative;
+  border:       solid 1px #babdb6;
+  width:        40vw;
+  max-width:    23em;
+  margin:       0    0    1rem 1.5rem;
+  padding:      1rem 1rem 1rem 1.5rem;
+}
+
+aside.series header h3, .snug.series {
+  text-transform: capitalize; }
+aside.series header h3 .header-aside {
+  text-transform: lowercase; }
+
+.snug.series::before {
+  font: normal normal normal 1em/1 "Font Awesome 5 Free";
+  content: "\f022";
+  margin-right: 0.75em;
+}
+
+.series .active {
+  font-weight: bolder; }
+  
+.series .active::marker {
+  font: normal normal 900 1em/1 "Font Awesome 5 Free";
+  content: "\f105\00a0" counter(list-item) ".\200a\00a0";
+}
+
+
+/********************
+ * Image
+ ********************/
+
+/* make figcaptions overlap their respective image */
+figcaption {
+  background-color: #0009;
+  color: #fcfcfc;
+  padding: 0.5em;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+figcaption p { margin-bottom: 0.5em; }
+figcaption a { color: inherit; }
+
+/* don't let long words like image paths break out of the missing image box */
+.image.fit > .box { overflow-wrap: anywhere; }
+
+
+/********************
+ * Icons
+ ********************/
+
+/* make span of .icons work like a list of ul.icons - for when the list is 
+   enclosed in a <p> tag, as <ul> & <ol> lists break out of <p> tags */
+.icons {
+  cursor: default;
+  padding-left: 0; }
+  .icons a {
+    color: #7f888f;
+    display: inline-block;
+    padding: 0 1em 0 0; }
+    .icons a:last-child {
+      padding-right: 0; }
+    .icons a .icon {
+      color: inherit; }
+      .icons a .icon:before {
+        font-size: 1.25em; }
+
+/* float .icons to the right on .h-cards */
+.h-card .icons {
+  float: right; }
+
+/* .post-card .authors need repositioning to the correct spot */
+.post-card .authors {
+  position: inherit;
+  top: -1.25em;
+}
+
+/* fix incorrect padding for 270-degree rotated font icon */
+.h-card .icons a.fa-rotate-270 {
+    padding: 0 0 1em 1em; }
+
+/* use font icons as markers for mixed items in tag lists */
+/* NOTE: only supported by firefox for now - falls back to regular marker */
+li.post::marker {
+  font: normal normal normal 1em/1 "Font Awesome 5 Free";
+  color: #777;
+  content: "\f249\00a0"; }
+li.project::marker {
+  font: normal normal 900 0.85em/1 "Font Awesome 5 Free";
+  color: #777;
+  content: "\f542\00a0"; }
+li.page::marker {
+  font: normal normal normal 1em/1 "Font Awesome 5 Free";
+  color: #777;
+  content: "\f15c\00a0"; }
+
+
+/********************
+ * Pagination
+ ********************/
+div.pager {
+  text-align: center; }
+
+
+/********************
+ * Contact
+ ********************/
+
+/* don't let long words like urls break out of the contacts sidebar */
+ul.contact li { overflow-wrap: break-word; }
+
+
+/********************
+ * Comments
+ ********************/
+
+/* custom comment styles for staticman-based comment system */
+form.comment-form.row.gtr-uniform { margin: 1.5em -1.5em auto; }
+section.comments .add-comment-message {
+  font-size: 1.333em;
+  font-weight: bold;
+  text-align: center;
+  margin: 3em auto; }
+  section.comments article.p-comment {
+    margin: 1.5em 0 1em 0; }
+  section.comments article.p-comment header h3 {
+    margin-bottom: 0.25em; }
+  section.comments article.p-comment p {
+    margin-bottom: 0.75em; }
+  section.comments article.p-comment[data-parent-id] {
+    padding: 0.25em 0 0.25em 2em; 
+    border-left: solid 3px rgba(210, 215, 217, 0.5); }
+  section.comments #comment-url { border-color: white; } /* comment-url is for spambots only */
+  section.comments #comment-url::placeholder { color: white !important; }
+  section.comments #comment-url:active::placeholder, section.comments #comment-url:focus::placeholder { color: #9fa3a6 !important; }
+
+
+/********************
+ * Message
+   adapted from https://semantic-ui.com/
+ ********************/
+.info.message {
+  min-height: 1em;
+  line-height: 1.4285em;
+  color: #276f86;
+  background-color: #f8ffff;
+  border-radius: 0.28571429rem;
+  transition: opacity .1s ease, color .1s ease, background .1s ease, box-shadow .1s ease, -webkit-box-shadow .1s ease;
+}
+
+.info.message:not(.modal) {
+  position: relative;
+  margin: 1em 0;
+  padding: 1em 1.5em;
+  font-size: 1em;
+  box-shadow: 0 0 0 1px #a9d5de inset, 0 0 0 0 transparent;
+}
+
+.info.message .header {
+  color: #0e566c;
+  margin-bottom: 0.25em;
+}
+
+.info.message .close {
+  display: inline-block;
+  cursor: pointer;
+  position: absolute;
+  font-size: 1.2em;
+  margin: 0;
+  top: 0.75em;
+  right: 0.75em;
+  opacity: 0.6;
+  transition: opacity .1s ease;
+}
+.info.message .close:hover {
+  opacity: 1; }
+
+/********************
+ * Modal
+   via https://spinningnumbers.org/a/staticman-heroku.html
+   and https://travisdowns.github.io/blog/2020/02/05/now-with-comments.html
+ ********************/
+.show-modal {
+  overflow: hidden;
+  position: relative;
+}
+
+.show-modal:before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+.show-modal .modal {
+  display: block;
+}
+.modal {
+  display: none;
+  position: fixed;
+  width: 330px;
+  top: 50%;
+  left: 50%;
+  margin-left: -165px;
+  margin-top: -100px;
+  min-height: 0;
+  z-index: 9999;
+  box-shadow: 0 2px 2px 2px rgba(0,0,0,.14);
+  padding: 1em;
+  border-radius: 2px;
+  background: white;
+}
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  box-shadow: none;
+  opacity: 0.65;
+}
+
+/********************
+ * Button
+ ********************/
+
+div.tags { margin: 1em 0 2em 0; }
+/* pill buttons are used for tags */
+/* TODO: need some design help here! */
+.pill.button {
+  font-family: "Open Sans", sans-serif;
+  /*color: #e16161 !important;
+  border: 1px solid #f56a6a;*/
+  color: #fff !important;
+  background-color: #f56a6a;
+  padding: 0.25em 0.75em 0.4em;
+  border-radius: 10rem;
+  font-weight: 500;
+  font-size: 90%;
+  line-height: 1;
+  vertical-align: baseline;
+  box-shadow: none;
+  height: auto;
+  text-transform: none;
+  transition: none;
+}
+a.pill.button:hover {
+  /*color: #fff !important;*/
+  /*background-color: #f67878;*/
+  opacity: 0.85;
+}
+span.pill.button, li.pill.button {
+  /*background-color: #fff;
+  color: #777 !important;
+  border: 1px solid #999;*/
+  cursor: default;
+}
+:is(span,li).pill.button:hover {
+  /*background-color: white;*/
+}
+
+/********************
+ * Header
+ ********************/
+
+/* tweaks to the main site header (not the page headers) */
+#header .dateline {
+  /*margin: 0.75em 0 -2.4em 0;*/
+}
+#header + .post-nav {
+  margin: 0.5em 0;
+  min-height: 3.25em;
+}
+
+
+/********************
+ * Banner
+ ********************/
+
+#banner .content header p {
+  margin: 0 0 2em 0; }
+
+
+/********************
+ * Menus
+ ********************/
+#menu ul .active {
+  font-weight: bolder; }
+#menu ul .active::marker {
+  font: normal normal 900 1em/1 "Font Awesome 5 Free";
+  color: #777;
+  content: "\f105\00a0"; }
+
+
+/********************
+ * Posts
+ ********************/
+
+/* add flexbox to these elements */
+.post-nav, .post-meta, .page-meta {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: space-between;
+}
+.post-nav > * { flex: 25; }
+.post-nav > .align-center { flex: 17; }
+.post-meta > *, .page-meta > * { flex: 1; }
+/* are these minor adjustments needed?
+.post-meta > .categories, .page-meta > .categories { flex: 4; }
+.post-meta > .dateline, .page-meta > .dateline { flex: 3; }
+*/
+
+/* special styling for the .dateline */
+.dateline, .modified-dateline { font-variant: all-small-caps; }
+.modified-dateline { margin: -1.333em 0 -0.333em 0; text-align: right; }
+time.modified-dateline { display: block; }
+.comments .dt-published { font-size: smaller; font-variant: all-small-caps; }
+
+
+/********************
+ * Main
+ ********************/
+
+/* padding adjustments */
+#main > .inner > section {                padding: 6em 0; }
+#main > .inner > .post-nav + section {    padding: 1.5em 0; }
+@media screen and (max-width: 1680px) {
+  #main > .inner {                        padding: 0 5em 0.1em 5em; }
+  #main > .inner > section {              padding: 4em 0; }
+  #main > .inner > .post-nav + section {  padding: 1em 0; }
+}
+@media screen and (max-width: 1280px) {
+  #main > .inner {                        padding: 0 4em 0.1em 4em; }
+  #main > .inner > section {              padding: 3em 0; }
+  #main > .inner > .post-nav + section {  padding: 0.5em 0; }
+}
+@media screen and (max-width: 736px) {
+  #main > .inner {                        padding: 0 2em 0.1em 2em; }
+  #main > .inner > section {              padding: 2em 0; }
+  #main > .inner > .post-nav + section {  padding: 0.5em 0; }
+}

@@ -1,0 +1,19 @@
+---
+layout:           default
+---
+{%-if page.published and site.show.authors %}
+<section>
+  {% include page_header.html page_title=page.name subtitle=page.position %}
+{%-if page.series %}
+  {% include series.html %}
+{%-endif %}
+  <!-- Page Content -->
+  {{ content }}
+</section>
+{%-if page.comments == true %}
+  {% include comments.html %}
+{%-endif %}
+{% include articles.html section_title="Authored Posts" %}
+{% else %}
+  {% include 404.html %}
+{%-endif %}

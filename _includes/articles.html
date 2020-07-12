@@ -1,0 +1,40 @@
+{%-comment-%}
+inputs:
+  section_title           the H2 header for this <section>
+dependencies:
+  site.posts              posts to be formatted as article cards
+  site.related_posts      related posts can be used in place of site.posts
+  site.related_posts_limit site-wide number of related posts to show
+  site.static_files       used to look up the placeholder image and get a list of filenames to check for file existence
+  page.handle             author pages have handles that limit rendered posts to only the author's
+local:
+  articles                posts, projects, pages, or people to be formatted as article cards
+  list_limit              the number of article cards to show
+  placeholder             used by article.html as the placeholder image for article cards
+  static_file_names       used by article.html to see if the article image exists
+{%-endcomment-%}
+
+{%-assign article_type= include.article_type    | default: 'posts'-%}
+{%-assign list_limit  = include.list_limit      | default: site.related_posts_limit | default: 6-%}
+
+{%-case article_type-%}
+  {%-when 'posts'-%}          {%-assign articles  = site.posts          | where: 'author', page.handle | default: site.posts-%}
+  {%-when 'related_posts'-%}  {%-assign articles  = site.related_posts  | where: 'author', page.handle | default: site.related_posts-%}
+  {%-when 'projects'-%}       {%-assign articles  = site.projects       | where: 'author', page.handle | default: site.projects-%}
+  {%-when 'authors'-%}        {%-assign articles  = site.people         | where: 'author', page.handle | default: site.posts-%}
+  {%-when 'people'-%}         {%-assign articles  = site.people         | where: 'author', page.handle | default: site.posts-%}
+  {%-when 'pages'-%}          {%-assign articles  = site.pages          | where: 'author', page.handle | default: site.pages-%}
+  {%-else-%}                  {%-assign articles  = site.posts          | where: 'author', page.handle | default: site.projects | default: site.people | default: site.pages-%}
+{%-endcase-%}
+
+<!-- Articles -->
+<section>
+  <header class="major">
+    <h2>{{-include.section_title | default: "Articles"-}}</h2>
+  </header>
+  <div class="{{-article_type }} posts">
+  {%-for article in articles limit:list_limit-%}
+    {% include article.html %}
+  {%-endfor-%}
+  </div>
+</section>

@@ -1,0 +1,21 @@
+<!-- Authors -->
+            <section class="authors">
+              {%-if include.section_title %}
+              <header class="section-header">
+                <h3>{{-include.section_title | default: "&nbsp;"-}}</h3>
+              </header>
+              {%-else %}
+              <hr class="sigil"/>
+              {%-endif %}
+          {%-for auth in page.author %}
+            {%-assign author = site.people | find: 'handle', auth-%}
+            {%-if author.published %}
+              {% include author.html %}
+            {%-else-%}
+              {% include author.html excerpt=page.author_bio %}
+            {%-endif %}
+              {% unless forloop.last %}<hr class="compact"/>{% endunless %}
+          {%-else-%}
+            {{ site.title }}
+          {%-endfor %}
+            </section>

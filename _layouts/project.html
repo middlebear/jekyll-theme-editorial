@@ -1,0 +1,24 @@
+---
+layout:           default
+---
+{%-if page.published %}
+<section>
+  {% include page_header.html byline_prefix=" " %}
+{%-if page.series %}
+  {% include series.html %}
+{%-endif %}
+  <!-- Page Content -->
+  {{ content }}
+  {%-include tags.html %}
+  <hr class="compact"/>
+
+  {%-if site.show.project_authors and page.author %}
+    {%-include authors.html show_next=false-%}
+  {%-endif %}
+</section>
+  {%-if page.comments == true %}
+    {% include comments.html %}
+  {%-endif %}
+{%-else %}
+  {%-include 404.html %}
+{%-endif %}

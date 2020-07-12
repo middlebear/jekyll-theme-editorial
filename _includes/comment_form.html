@@ -1,0 +1,43 @@
+              <!-- Comment Form -->
+              <form name="comment-form" method="post" action="{{-site.staticman_url | default: site.comments.form_action-}}" class="js-form comment-form row gtr-uniform" autocomplete="off">
+                <input type="hidden" name="options[type]"           value="{{-page.type-}}" />
+                <input type="hidden" name="options[slug]"           value="{{-page.slug-}}" />
+                <input type="hidden" name="fields[parent_id]"       value="" id="comment-parent-id" />
+                <input type="hidden" name="fields[page_url]"        value="{{-page.url-}}" />
+                <input type="hidden" name="fields[parent_fragment]" value="" id="comment-parent-fragment" />
+
+                <div class="col-6 col-12-medium">
+                  <label for="comment-body" class="col-12 col-12-small"><span class="float-right"><a href="#comment-form" id="cancel-comment-reply-link" rel="nofollow" class="button icon solid fa-ban" style="display:none;">cancel reply</a></span><h2>Add Comment</h2>
+                    <textarea name="fields[message]" id="comment-body" rows="4" placeholder="{%-if site.comments.allow_markdown == true-%}Style your comments with markdown: **bold**, _italics_, * list items, etc.{%-else-%}Type in your comment here!{%-endif-%}" required></textarea>
+                  </label>
+                </div>
+
+                <div class="col-6 col-12-medium">
+                  <label for="comment-url" class="col-7 col-12-small">
+                    <input type="text" id="comment-url" name="fields[url]" placeholder="Leave me empty, not even a space, unless you're malicious."/>
+                  </label>
+
+                  <label for="comment-name" class="col-7 col-12-small">Name
+                    <input type="text" id="comment-name" name="fields[name]" placeholder="Your name" required/>
+                  </label>
+
+                  <label for="comment-email" class="col-7 col-12-small">E-mail
+                    <input type="email" id="comment-email" name="fields[email]" placeholder="Your email (optional)"/>
+                  </label>
+                </div>
+                <div class="col-7 col-12-small">
+                  {% include modal.html %}
+                  <button type="submit" class="button" id="comment-form-submit">Submit</button> <!-- id is for Spinner -->
+                </div>
+                <p>
+                  <small>Comments are held for moderation. There will be a delay before they appear.<br>
+                    {% if site.comments.allow_markdown == true-%}Comments may include <a href="https://kramdown.gettalong.org/syntax.html" rel="external nofollow"><strong>Markdown</strong></a>.<br>{%-endif %}
+                    For private discussion:&nbsp;
+                    {%-if site.contact.obfuscated_email and site.show.email_address-%}
+                    <a href="[obfuscated]" data-code="{{-site.contact.obfuscated_email-}}" class="eml-protected" title="{{-site.comments.email_title | default: 'Send a message!'-}}">{{-site.comments.contact_text | default: "Send a message"-}}</a>.
+                    {%-elsif site.email and site.show.email_address-%}
+                    <a href="mailto:{{-site.email-}}" title="{{-site.comments.email_title | default: 'Send a message!'-}}">{{-site.comments.contact_text | default: "Send a message"-}}</a>.
+                    {%-endif-%}
+                  </small>
+                </p>
+              </form>

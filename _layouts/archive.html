@@ -1,0 +1,32 @@
+---
+layout:           default
+# TODO: add projects and pages to the archive - bound the date via `group_by_exp`
+---
+
+{%-if page.type=='year'-%}
+  {% assign date_format   = '%Y'-%}
+{%-elsif page.type=='month'-%}
+  {% assign date_format   = '%B %Y'-%}
+{%-elsif page.type=='day'-%}
+  {% assign date_format   = '%B %-d, %Y'-%}
+{%-endif-%}
+
+{% assign formatted_date  = page.date       | date: date_format %}
+{% assign title           = formatted_date  | append: ' Archives' %}
+{%-assign projects        = site.projects   | where_exp: 'project', 'project.date == formatted_date and project.published == true'-%}
+{%-assign pages           = site.pages      | where_exp: 'pg',      'pg.date      == formatted_date and pg.published == true'-%}
+
+<section>
+  {% include page_header.html page_title=title %}
+  <!-- Page Content -->
+  <hr class="major"/>
+  {% include posts.html %}
+  {% if projects != empty-%}
+  <h2>Projects {{ title-}}</h2>
+  {% include projects.html %}
+  {%-endif-%}
+  {% if pages != empty-%}
+  <h2>Pages {{ title-}}</h2>
+  {% include pages.html %}
+  {%-endif-%}
+</section>

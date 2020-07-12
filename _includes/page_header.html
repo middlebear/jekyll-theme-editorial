@@ -1,0 +1,77 @@
+{%-assign peeps           = site.collections      | find: "label", 'people'-%}
+{%-assign authors         = include.author        | default: page.author-%}
+{%-assign page_title      = include.page_title    | default: page.title-%}
+{%-assign subtitle        = include.subtitle      | default: page.subtitle-%}
+{%-assign date_format     = site.date_format      | default: '%^A, %b %-d, %Y'-%}
+{%-assign page_date       = include.date          | default: page.date-%}
+{%-assign modified_date   = include.modified_date | default: page.last_modified_at | default: page.modified_date-%}
+{%-assign exclude_meta    = "terms, privacy"      | split: ', '-%}
+{%-assign byline_prefix   = include.byline_prefix | default: "By" %}
+{%-assign summary_title   = include.summary_title | default: "Summary"-%}
+          {%-unless exclude_meta contains page.slug %}
+          {%-unless site.exclude_dates contains page.collection-%}
+            {% if modified_date and page.collection %}{% include date_modified.html date_format='%b %-d, %Y' lead_in='last modified: '-%}{%-endif-%}
+          {%-endunless %}
+            <div class="page-meta">
+            {% if page.handle-%}<!-- Handle --><div class="handle">@{{-page.handle-}}</div>{%-endif %}
+            {%-if include.categories != '' and include.categories or page.categories != '' and page.categories %}
+              {% include categories.html %}
+            {%-endif-%}
+            {% unless site.exclude_dates contains page.collection %}
+              {% if page_date and page.collection %}
+              <!-- Post Date -->
+              {% include item_date.html item_date=page_date date_class='dateline align-right' date_format=date_format %}
+              {%-endif %}
+            {%-endunless %}
+            </div>
+          {%-endunless %}
+            <!-- Page Header -->
+            <header class="main tight">
+              <h1 class="p-name" itemprop="name headline">
+              {%-if page.website != "" and page.website-%}
+                <a href="{{-page.website-}}" rel="external" title="Go to {{ page_title-}}'s website: {{ page.website-}}">{{-page_title-}}</a>
+              {%-else-%}
+                {{-page_title-}}
+              {%-endif-%}
+              </h1>
+              {% if include.subtitle or page.subtitle-%}<p class="subtitle p-subtitle">{{-subtitle-}}</p>{%-endif-%}
+            {%-if site.show.authors and authors-%}{%-unless exclude_meta contains page.slug-%}
+              <div class="byline">
+                {%-if authors %}{{ byline_prefix }}{%-endif-%}
+                {%-include authors_byline.html %}
+              </div>
+            {%-endunless-%}{%-endif %}
+            </header>
+          {%-if page.summary and site.include_summary contains page.collection %}
+            <h2 class="subheader">{{-summary_title-}}</h2>
+            {{ page.summary | markdownify }}
+          {%-endif-%}
+          {%-if include.date %}
+            {% include item_date.html item_date=include.date date_class=' ' date_format=date_format %}
+          {%-endif-%}
+          {%-if page.blurb !='' and page.blurb %}
+            <p class="blurb">{{-page.blurb-}}</p>
+          {%-endif-%}
+          {%-if page.image or page.images %}
+            {%-include banner.html %}
+          {%-endif-%}
+          {%-if page.location or page.company or page.company_url or page.social %}
+            <!-- Page Byline -->
+            <p class="snug byline">
+            {%-if page.location %}
+              <span class="p-location">{{-page.location-}}</span>
+            {%-endif %}
+            {%-if page.company or page.company_url %}
+              {%-if page.location-%}&nbsp;&nbsp;| &nbsp;{%-endif %}
+              {%-if page.company_url %}
+              <a href="{{-page.company_url-}}" class="company" rel="external" title="Go to {{ page.company-}}'s website">{{-page.company-}}</a>
+              {%-else %}
+              <span class="company">{{-page.company-}}</span>
+              {%-endif %}
+            {%-endif-%}
+            {%-if page.social %}
+              {%-if page.location or page.company or page.company_url-%}&nbsp;&nbsp;| &nbsp;{%-else-%}Social: &nbsp;{%-endif-%}
+              {% include social_media.html %}
+            {%-endif-%}
+            </p>
+          {%-endif %}

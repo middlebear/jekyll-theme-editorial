@@ -1,0 +1,47 @@
+{%-comment-%}
+inputs:
+  item_type               [post, project, page, author] - the type of item to render
+dependencies:
+  site.show.authors       to determine whether to show authors or not
+  article                 the item of item_type for which to render
+local:
+  image                   the image to render as the article image
+  alt_text                the alt text to use for the image, for screen readers
+  img_title               the image title to use for the image
+NOTE: liquid append-remove trick (`-@$remove@me`) inspired by https://vsoch.github.io/2019/jekyll-lists/
+{%-endcomment-%}
+
+{%-assign item_type     = include.item_type | default: 'post'-%}
+
+<!-- Article - {{ article.title }} -->
+    <article class="{{-item_type-}}-card">
+      <figure>
+        <a href="{{-article.url-}}" class="image" title="Read '{{-article.title-}}'">
+          {% include item_image.html-%}
+        </a>
+      </figure>
+      {%-assign modified_date = item.modified_date | default: item.last_modified_at-%}
+    {%-if modified_date-%}
+      {% include date_modified.html item_date=modified_date lead_in='last modified: '-%}
+    {%-endif %}
+      <div class="article-meta">
+        {% include item_date.html   date_class='dateline float-right' %}
+        {% include categories.html  list_class='smaller' %}
+      </div>
+      <header>
+        <h3><a href="{{-article.url-}}" title="Read '{{-article.title-}}'">{{-article.title-}}</a></h3>
+      </header>
+      {%-if site.show.authors %}
+        {%-include item_authors.html %}
+      {%-endif %}
+      <div>{{-article.excerpt-}}</div>
+    {%-if item.series %}
+      <div class="snug series" title="This {{ item.type | append: '-@$remove@me' | remove: 's-@$remove@me' }} is part of a series">{{ item.series | replace: '-',' ' | capitalize-}}</div>
+    {%-endif %}
+      <div class="tags">{%-include tags.html %}</div>
+      {%-if site.show.more_button %}
+      <ul class="actions">
+        <li><a href="{{-article.url-}}" title="Read '{{-article.title-}}'" class="button">More</a></li>
+      </ul>
+      {%-endif %}
+    </article>

@@ -1,0 +1,32 @@
+{%-comment-%}
+lists projects as section cards given a projects hash
+
+inputs:
+  include.date_format     optional; override the date format string to use
+  include.lead_in         optional; override character(s) to precede the date to differentiate it visually
+  include.item_date       optional; override the date, will otherwise choose in order: item, article, post, project, page,
+  include.itemprop        optional; override the microdata attribute value
+  include.date_class      optional; override the class, including microformat classes, to apply to the <time> element
+  include.hide_schema     optional; whether to hide the microformats/microdata schema hints or not
+dependencies:
+  site.date_format        the site-wide date_format to use by default
+local:
+  dt_format               the date format string to use (dt_format to avoid clobbering parent date_format)
+  lead_in                 character(s) to precede the date to differentiate it visually
+  item_date               the date, will otherwise choose in order: item, article, post, project, page,
+  itemprop                the microdata attribute value
+  date_class              the class, including microformats, to apply to the <time> element
+{%-endcomment-%}
+
+{%-assign dt_format       = include.date_format   | default: site.date_format | default: '<span class="dayname">%^A, </span>%b %-d, %Y'-%}
+{%-assign lead_in         = include.lead_in-%}
+{%-assign item_date       = include.item_date     | default: article.date | default: item.date | default: comment.date | default: post.date | default: project.date | default: page.date | date_to_xmlschema-%}
+{%-assign itemprop        = include.itemprop      | default: 'datePublished'-%}
+{%-assign date_class      = include.date_class    | default: 'dateline'-%}
+
+{%-if include.hide_schema-%}
+<time datetime="{{-item_date-}}" class="{{-date_class-}}">{{ lead_in }}{{ item_date | date: dt_format }}</time>
+{%-else-%}
+{%-unless date_class contains 'dt-modified'-%}{%-assign date_class = date_class | append: ' dt-published' | strip-%}{%-endunless-%}
+<time datetime="{{-item_date-}}" itemprop="{{-itemprop-}}" class="{{-date_class-}}">{{ lead_in }}{{ item_date | date: dt_format }}</time>
+{%-endif-%}

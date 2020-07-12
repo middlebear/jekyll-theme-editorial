@@ -1,0 +1,32 @@
+{%-comment-%}
+  via https://riaanhanekom.com/2018/03/01/setting-up-jekyll-related-posts-and-series
+  NOTE: liquid append-remove trick (`-@$remove@me`) inspired by https://vsoch.github.io/2019/jekyll-lists/
+{%-endcomment-%}
+
+{%-if page.series-%}
+  {%-case page.type-%}
+    {%-when 'posts'-%}    {%-assign series_collection = site.posts-%}
+    {%-when 'projects'-%} {%-assign series_collection = site.projects-%}
+    {%-when 'pages'-%}    {%-assign series_collection = site.pages-%}
+    {%-when 'people'-%}   {%-assign series_collection = site.people-%}
+  {%-endcase-%}
+  {%-assign series = series_collection | where_exp: 'item', "item.series == page.series and item.published == true" | sort: 'date' %}
+<!-- Series Aside -->
+  <aside class="series">
+    <header>
+      {% assign series_titles = series | find: title, page.title | map: 'title'-%}
+      <h3>{{ page.series | replace: '-',' ' | capitalize }} <span class="header-aside"> - {% if page.type=='people'-%}group{%-else-%}{{ include.series_type | default: page.type | append: "-@$remove@me" | remove: "s-@$remove@me" }} series</span>{%-endif-%}</h3>
+    </header>
+    <ol class="series">
+    {%-for item in series %}
+      <li{%-if item.url == page.url %} class="active"{%-endif-%}>
+      {%-if item.url == page.url-%}
+        {{-item.title-}}
+      {%-else-%}
+        <a href="{{-item.url-}}">{{-item.title-}}</a>
+      {%-endif-%}
+      </li>
+    {%-endfor %}
+    </ol>
+  </aside>
+{%-endif %}

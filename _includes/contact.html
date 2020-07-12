@@ -1,0 +1,42 @@
+{%-assign title       = site.contact.heading      | default: "Contact"-%}
+{%-assign message     = site.contact.message      | default: "Get in touch with us to start a conversation or to let us know about a bug on the site."-%}
+{%-assign email_title = site.contact.email_title  | default: 'Send us an email!'-%}
+<!-- Section - Contact -->
+          <section id="contact-info" class="h-card">
+            <header class="major">
+              <h2>{{-title-}}</h2>
+            </header>
+            <p>{{-message-}}</p>
+            <data class="u-url" href="{{-'/' | absolute_url-}}" hidden></data>
+            {%-if site.contact.name-%}<data class="p-name" value="{{-site.contact.name-}}" hidden></data>{%-endif-%}
+            <ul class="contact">
+              {% if site.contact.obfuscated_email and site.show.email_address-%}
+              <li class="icon solid fa-envelope"><a href="[obfuscated]" data-code="{{-site.contact.obfuscated_email-}}" class="u-email eml-protected" title="{{-email_title-}}">[contact email]</a></li>
+              {% elsif site.email and site.show.email_address-%}
+              <li class="icon solid fa-envelope"><a href="mailto:{{-site.email-}}" class="u-email" title="{{-email_title-}}">{{-site.email-}}</a></li>
+              {%-endif-%}
+              {% if site.contact.phone-%}
+              <li class="icon solid fa-phone p-tel">{{-site.contact.phone-}}</li>
+              {%-endif-%}
+              {% if site.contact.address-%}
+              <li class="icon solid fa-home p-adr h-adr">
+                <address>
+                  {% if site.contact.address.line1-%}
+                  <span class="p-street-address">{{ site.contact.address.line1 }}</span><br />
+                  {%-endif-%}
+                  {% if site.contact.address.line2 or site.contact.address.line3-%}
+                  <span class="p-extended-address">
+                    {{-site.contact.address.line2 }}
+                    {%-if site.contact.address.line3-%}{{ site.contact.address.line3 | prepend: "<br />" }}{%-endif-%}
+                  </span><br />
+                  {%-endif-%}
+                  {% if site.contact.address.city or site.contact.address.state or site.contact.address.zipcode-%}
+                  <span class="p-locality">{{ site.contact.address.city }}</span>
+                  <span class="p-region">{{ site.contact.address.state }}</span>
+                  <span class="p-postal-code">{{-site.contact.address.zipcode-}}</span><br />
+                  {%-endif %}
+                </address>
+              </li>
+            {% endif-%}
+            </ul>
+          </section> <!-- End Section - Contact -->

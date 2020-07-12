@@ -1,0 +1,14 @@
+{%-comment-%}
+  NOTE that lists, being block level elements by default, break out of 
+  paragraph tags, but spans don't 
+{%-endcomment-%}
+<!-- Social media span -->
+{%-assign socials = author.social | default: page.social %}
+              <span class="icons">
+              {%-for social in socials-%}
+              {% assign social_site = site.data.social[social.first] %}
+                {%-if social.last %}
+                  <a href="{{-social_site.pattern | replace: '%s', social.last-}}" rel="me external" class="u-url {{ social_site.icon-}}" title="Go to my {{ social_site.label }} page" target="_blank"><span class="label">{{-social_site.label-}}</span></a>
+                {%-endif-%}
+              {%-endfor-%}
+              </span>

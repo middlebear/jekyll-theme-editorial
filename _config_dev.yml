@@ -1,0 +1,17 @@
+# leave defaults in _config.yml and use this file to override settings as desired
+# use the `--config` flag: `jekyll s --config _config.yml,_config_dev.yml`
+
+# Content settings
+title:              Editorial Development
+subtitle:           by Middlebear
+tagline:            This is the **development** version of Editorial
+description: >-
+  This is the development version of Editorial. You shouldn't be seeing this
+  outside of a local development environment.
+author:             middlebearista
+email:              middlebearista@example.com
+contact:
+  name:             Development Name"
+  heading:          "Dev in touch"
+  email_key:        7
+  obfuscated_email: "076a6e63636b62656266756e74736647627f666a776b622964686a"

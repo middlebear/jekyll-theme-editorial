@@ -1,0 +1,61 @@
+{%-assign archived = site.jekyll-archives.enabled-%}
+{%-if archived contains 'year' or archived contains 'month' or archived contains 'day'-%}
+  {%-assign archives_menu = site.data.navigation | find: "identifier", "archives"-%}
+  {%-assign posts_by_year = site.posts          | group_by_exp: "post", "post.date  | date: '%Y'"-%}
+  {%-assign years         = posts_by_year       | map: 'name'-%}
+  {%-assign firsts        = "1,21,31"           | split: ','-%}
+  {%-assign seconds       = "2,22"              | split: ','-%}
+  {%-assign thirds        = "3,23"              | split: ','-%}
+  <li{%-if page.url contains archives_menu.url %} class="active"{%-endif-%}>
+    <span class="opener">
+    {%-if archives_menu-%}
+      <a href="{{-archives_menu.url-}}" class="{%-if page.url contains archives_menu.url-%}active {% endif-%}">{{-archives_menu.title | default: 'Archives'-}}</a>
+    {%-else-%}
+      {{-archives_menu.title | default: 'Archives'-}}
+    {%-endif-%}
+    </span>
+  {%-if archived contains 'year' or archived contains 'month' or archived contains 'day'-%}
+    <ul class="sub-menu">
+    {%-for year in posts_by_year %}
+      {%-assign year_url = site.jekyll-archives.permalinks.year | replace: ':year', year.name-%}
+      <li{%-if page.url == year_url %} class="active"{%-endif-%}>
+      {%-if archived contains 'year' %}
+        <a href="{{-year_url-}}">{{-year.name-}}</a>
+      {%-else-%}
+        <span>{{-year.name-}}</span>
+      {%-endif %}
+      {%-if archived contains 'month' or archived contains 'day'-%}
+        {%-assign posts_by_month = year.items | sort: 'date' | group_by_exp: "post", "post.date | date: '%B'"-%}
+        <ul class="sub-menu">
+          {%-for month in posts_by_month %}
+          {%-assign month_name = month.name | date: '%m'-%}
+          {%-assign month_url = site.jekyll-archives.permalinks.month | replace: ':year', year.name | replace: ':month', month_name-%}
+          <li{%-if page.url contains month_url %} class="active"{%-endif-%}>
+          {%-if archived contains 'month' %}
+            <a href="{{-month_url-}}">{{-month.name }} {{ year.name-}}</a>
+          {%-else-%}
+            <span>{{-month.name }} {{ year.name-}}</span>
+          {%-endif %}
+          {%-if archived contains 'day'-%}
+            {%-assign posts_by_day = month.items | sort: 'date' | group_by_exp: "post", "post.date | date: '%-d'"-%}
+            <ul class="sub-menu">
+            {%-for day in posts_by_day %}
+              {%-if firsts contains day.name-%}{%-assign suffix='st'-%}{%-elsif seconds contains day.name-%}{%-assign suffix='nd'-%}{%-elsif thirds contains day.name-%}{%-assign suffix='rd'-%}{%-else-%}{%-assign suffix='th'-%}{%-endif-%}
+              {%-assign day_name = day.name | plus: 0-%}
+              {%-capture day_url-%}{{-month_url-}}/{%-if day_name < 10-%}0{%-endif-%}{{-day.name-}}{%-endcapture-%}
+              <li{%-if page.url contains day_url %} class="active"{%-endif-%}>
+                <a href="{{-day_url-}}">{{-month.name | date: '%b' }} {{ day.name-}}<sup>{{-suffix-}}</sup></a>
+              </li>
+            {%-endfor %}
+            </ul>
+          {%-endif %}
+          </li>
+        {%-endfor %}
+        </ul>
+      {%-endif %}
+      </li>
+    {%-endfor %}
+    </ul>
+  {%-endif %}
+  </li>
+{%-endif %}

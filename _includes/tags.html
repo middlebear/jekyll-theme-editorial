@@ -1,0 +1,15 @@
+{%-if site.plugins contains 'jekyll-archives'-%}{%-assign archives_available = true-%}{%-else-%}{%-assign archives_available = false-%}{%-endif-%}
+{%-assign tags = post.tags | default: project.tags | default: pg.tags | default: item.tags | default: page.tags-%}
+{%-assign include_tag_links = "posts" | split: ', '-%}
+{%-if tags != empty %}
+          <!-- Post Tags -->
+            <ul class="inline tags">
+            {%-for tag in tags %}
+              {%-if archives_available and site.tags contains tag or include_tag_links contains page.collection %}
+              <li><a href="/tags/{{-tag | slugify-}}" rel="tag" class="pill button p-category" title="Articles tagged with '{{-tag-}}'">{{-tag-}}</a></li>
+              {%-else-%}
+              <li class="pill button p-category">{{-tag-}}</li>
+              {%-endif %}
+            {%-endfor %}
+            </ul>
+{%-endif %}

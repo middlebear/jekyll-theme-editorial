@@ -1,0 +1,63 @@
+{%-comment-%}
+inputs:
+  include.author:         optional array of author handles to look up in the site.people collection, with which to create an unordered list
+dependencies:
+  site.people:            people collection with `[handle, published, name, url]` elements to populate list elements
+  site.title:             default `author` if otherwise not specified or available
+  site.collections:       used to determine if the people collection is set to be output on the site
+  site.show.authors
+  site.show.post_authors
+  site.show.project_authors
+  site.show.page_authors
+  page.type
+  page.author
+  page.show_authors
+local:
+  peeps:                  the sites's people collection, for determining whether author pages are rendered (`output`) or not
+  authors:                array of author handles, either from `include.author` or `page.author`
+  show_authors:           should authors be shown, based on site configuration?
+  has_author_cards:       does the page include author cards?
+{%-endcomment-%}
+
+{%-assign authors       = include.author        | default: page.author-%}
+{%-assign peeps         = site.collections      | find: "label", 'people'-%}
+
+{%-if site.show.post_authors and page.type=="posts"-%}
+  {%-assign show_authors      = true-%}
+  {%-assign has_author_cards  = true-%}
+{%-elsif site.show.project_authors and page.type=="projects"-%}
+  {%-assign show_authors      = true-%}
+  {%-assign has_author_cards  = true-%}
+{%-elsif site.show.page_authors and page.type=="pages"-%}
+  {%-if page.show_authors == true-%}
+    {%-assign show_authors    = true-%}
+  {%-else-%}
+    {%-assign show_authors    = false-%}
+  {%-endif-%}
+  {%-assign has_author_cards  = false-%}
+{%-else-%}
+  {%-assign show_authors      = false-%}
+  {%-assign has_author_cards  = false-%}
+{%-endif-%}
+
+            {%-if site.show.authors and show_authors-%}
+                <ul class="inline csv authors">
+              {%-for slug in authors-%}
+                {%-assign author      = site.people | find: 'handle', slug-%}
+                {%-assign author_name = author.name | default: slug-%}
+                {%-if author.published and has_author_cards %}
+                  <li><a href="#{{-author.handle-}}" class="p-author" title="Read {{ author.handle-}}'s excerpt below">{{-author_name-}}</a></li>
+                {%-elsif author.published and peeps.output-%}
+                  <li><a href="{{-author.url-}}" rel="author" class="p-author u-author" title="Read {{ author.handle-}}'s bio">{{-author_name-}}</a></li>
+                {%-elsif author.published-%}
+                  <li class="p-author">{{-author_name-}}</li>
+                {%-elsif has_author_cards %}
+                  <li><a href="#{{-slug-}}" class="p-author" title="Read {{ slug-}}'s excerpt below">{{-slug-}}</a></li>
+                {%-else-%}
+                  <li class="p-author">{{-slug-}}</li>
+                {%-endif-%}
+              {%-else-%}
+                  <li class="p-author">{{-site.title-}}</li>
+              {%-endfor %}
+                </ul>
+            {%-endif %}

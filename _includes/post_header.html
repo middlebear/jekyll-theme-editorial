@@ -1,0 +1,52 @@
+<!-- Post Header -->
+{%-assign peeps           = site.collections      | find: "label", 'people'-%}
+{%-assign authors         = include.author        | default: page.author-%}
+{%-assign page_title      = include.page_title    | default: page.title-%}
+{%-assign subtitle        = include.subtitle      | default: page.subtitle-%}
+{%-assign post_date       = include.date          | default: page.date-%}
+{%-assign modified_date   = include.modified_date | default: page.modified_date | default: page.last_modified_at-%}
+{%-assign date_format     = site.date_format      | default: '%^A, %b %-d, %Y'-%}
+{%-assign byline_prefix   = include.byline_prefix | default: "By&nbsp;"-%}
+
+          {%-if modified_date-%}
+            {% include date_modified.html date_format='%b %-d, %Y' lead_in='last modified: '-%}
+          {%-endif %}
+            <div class="post-meta">
+            {%-if include.categories or page.categories %}
+              {% include categories.html %}
+            {%-endif-%}
+            {% if post_date %}
+              <!-- Post Date -->
+              {% include item_date.html item_date=post_date date_class='dateline align-right' date_format=date_format %}
+            {%-endif %}
+            </div>
+            <header class="tight main">
+              <!-- Post Title -->
+              <h1 class="p-name" itemprop="name headline">
+              {%-if page.website and page.website != "" %}
+                <a href="{{-page.website-}}" rel="external" title="Go to {{ page_title-}}'s website: {{ page.website-}}">{{-page_title-}}</a>
+              {%-else-%}
+                {{-page_title-}}
+              {%-endif %}
+              </h1>
+              {%-if include.subtitle or page.subtitle %}
+              <!-- Post Subtitle -->
+              <p class="subtitle">{{-subtitle-}}</p>
+              {%-endif %}
+            </header>
+          {%-if page.image or page.images %}
+            {% include banner.html %}
+          {%-endif %}
+          {%-if authors or page.location or site.title %}
+            <!-- Post Byline -->
+            <div class="snug byline">
+            {%-if page.location %}
+              <span class="p-location">{{-page.location-}}</span>
+              {%-assign byline_prefix = " | "-%}
+            {%-endif %}
+              {%-if site.show.authors-%}
+                {%-if authors %}{{ byline_prefix }}{%-endif %}
+                {% include authors_byline.html %}
+              {%-endif %}
+            </div>
+          {%-endif %}

@@ -1,0 +1,73 @@
+{%-comment-%}
+inputs:
+  include.url:            override the author's displayed url
+  include.name:           override the author's displayed name
+  include.image:          override the author's displayed image
+  include.handle:         override the author's displayed handle
+  include.position:       override the author's displayed position
+  include.excerpt:        override the author's displayed excerpt
+  include.show_social:    boolean for whether to show social icon links or not
+  include.show_next:      boolean for whether to show the next post line or not
+dependencies:
+  site.posts:             used to find `next_post` by author
+local:
+  authored:               calculated boolean that determines <article> layout
+  author                  the author object to render
+  auth                    the author's handle, included only on authored pages;
+                          `auth` also determines the `authored` boolean value
+{%-endcomment-%}
+{%-assign peeps       = site.collections | find: "label", 'people'-%}
+{%-assign next_post   = site.posts | find_exp: 'item', "item.author contains auth and item.url != page.url" %}
+{%-assign authored    = !!auth-%}
+{%-if include.show_next == false %-}{%-assign show_next = false-%}{%-else-%}{%-assign show_next = true-%}{%-endif-%}
+{%-if include.show_social == false %-}{%-assign show_social = false-%}{%-else-%}{%-assign show_social = true-%}{%-endif-%}
+<!-- Author - {{ author.handle | default: auth }} -->
+              <article id="{{-author.handle | default: auth-}}" class="h-card author-card row gtr-100 gtr-uniform"{%-if authored %} itemid="{{-author.url | absolute_url-}}" itemprop="author" itemscope itemtype="http://schema.org/Person"{% endif-%}>
+                <figure class="image {%-unless authored %} col-4 col-12-small{%-endunless-%}">
+                  {%-if author.published and site.show.authors and include.url or author.url %}
+                  <a href="{{-include.url | default: author.url-}}"{%-if authored %} rel="author"{%-endif %} class="image fit u-url" title="Read more about {{-include.name | default: author.name | split: ' ' | first-}}">
+                    <img src="{{-author.image_path-}}{{-include.image | default: author.images.thumbnail.file | default: author.images.default.file | default: author.image | default: 'placeholder.png'-}}" itemprop="thumbnail" class="u-photo" title="{{-author.images.thumbnail.title | default: author.images.default.title | default: author.images.title | default: author.image_title-}}" alt="{{-author.images.thumbnail.alt_text | default: author.images.default.alt_text | default: author.images.alt_text | default: author.alt_text-}}"/>
+                  </a>
+                  {%-elsif author.published!=true and site.show.authors-%}
+                  <img src="{{-site.image_path-}}{{-include.image | default: 'placeholder.png'-}}" itemprop="thumbnail" class="image fit u-photo" title="{{-include.image_title | default: 'Placeholder image'-}}" alt="{{-include.image_alt_text | default: 'Placeholder image of author'-}}"/>
+                  {%-else-%}
+                  <img src="{{-site.image_path-}}{{-include.image | default: author.images.thumbnail.file | default: author.images.default.file | default: author.image | default: 'placeholder.png'-}}" itemprop="thumbnail" class="image fit u-photo" title="{{-author.images.thumbnail.title | default: author.images.default.title | default: author.images.title | default: author.image_title-}}" alt="{{-author.images.thumbnail.alt_text | default: author.images.default.alt_text | default: author.images.alt_text | default: author.alt_text-}}"/>
+                  {%-endif %}
+                {%-if author.series and author.published %}
+                  <div class="snug series" style="margin-top: -1.5em;" title="This author is part of a group">{{ author.series | replace: '-',' ' |  split: " " | join: "-----" | camelcase | split: "-----" | join: " "-}}</div>
+                {%-endif %}
+                </figure>
+                <div{%-unless authored %} class="col-8 col-12-small"{%-endunless-%}>
+                  {%-if show_social and author.social %}
+                    {% include social_media.html %}
+                  {%-endif %}
+                  <header>
+                    <h3>
+                      {%-if author.published and peeps.output and site.show.authors and include.url or author.url-%}
+                      <a href="{{-author.url-}}"{%-if authored %} rel="author"{%-endif %} class="{%-if authored-%}p-author {% endif-%}p-name u-url"{%-if authored %} itemprop="name"{%-endif %} title="Read more about {{ include.name | default: author.name | split: ' ' | first-}}">{{-include.name | default: author.name | default: auth }} <span class="header-aside">| {{ include.handle | default: author.handle-}}</span></a>
+                      {%-elsif author.published != true and site.show.authors-%}
+                      <span class="{%-if authored-%}p-author {% endif-%}p-name"{%-if authored %} itemprop="name"{%-endif-%}>{{ include.handle | default: author.handle | default: auth-}}</span>
+                      {%-else-%}
+                      <span class="{%-if authored-%}p-author {% endif-%}p-name"{%-if authored %} itemprop="name"{%-endif-%}>{{-include.name | default: author.name | default: auth |  split: " " | join: "-----" | camelcase | split: "-----" | join: " "-}}</span>
+                      {%-endif-%}
+                    </h3>
+                    {%-if author.published %}
+                    <p class="header-subtitle" itemprop="jobTitle">{{-include.position | default: author.position-}}</p>
+                    {%-endif %}
+                  </header>
+                  {%-comment-%}BUG: can't add class p-summary/p-note to generated <p> tag, e.g., {:.p-note}{%-endcomment %}
+                  <div class="p-summary p-note" itemprop="abstract">
+                    {%-if author.published and site.show.authors-%}
+                    {{ include.excerpt | default: author.excerpt }}
+                    {%-else-%}
+                    {{ include.excerpt | default: author.summary | default: page.author_bio }}
+                    {%-endif-%}
+                    {%-if show_next and next_post %}
+                    <span> More by {{ include.name | default: author.name | split: ' ' | first | default: auth | capitalize-}}: 
+                      <a href="{{-next_post.url-}}" title="Read '{{-next_post.title-}}'">{{-next_post.title-}}</a>
+                      {% include item_date.html lead_in='on ' item_date=next_post.date hide_schema=true %}
+                    </span>
+                    {%-endif %}
+                  </div>
+                </div>
+              </article>

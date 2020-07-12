@@ -1,0 +1,25 @@
+{%-comment-%}
+iterate over the given site collections to generate menu items
+
+inputs:                   
+  include.parent_url      the parent url, for knowing when to activate the menu item
+  include.parent_title    the parent menu entry text
+dependencies:
+  menu_items             the submenu item collection
+local:
+  urls                    array of urls of the submenu item collection
+{%-endcomment-%}
+
+{%-assign urls = menu_items | map: 'url'-%}
+<li{%-if include.parent_url == page.url %} class="active"{%-endif-%}>
+  <span class="opener{%-if page.url contains include.parent_url or urls contains page.url %} active{%-endif-%}">
+    <a href="{{-include.parent_url-}}">{{-include.parent_title-}}</a>
+  </span>
+  <ul class="sub-menu">
+    {%-for item in menu_items limit: item_limit %}
+      {%-if item.published == true %}
+    <li{%-if item.url == page.url %} class="active"{%-endif-%}><a href="{{-item.url-}}">{{-item.name | default: item.title-}}</a></li>
+      {%-endif-%}
+    {%-endfor %}
+  </ul>
+</li>

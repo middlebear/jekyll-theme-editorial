@@ -1,0 +1,16 @@
+---
+layout:           default
+---
+{% if page.published %}
+          <!-- Page Section -->
+          <section>
+            {% include page_header.html %}
+          {%-if page.series %}
+            {% include series.html %}
+          {%-endif %}
+            <!-- Page Content -->
+            {{ content }}
+          </section>
+{% else %}
+  {% include 404.html %}
+{% endif %}

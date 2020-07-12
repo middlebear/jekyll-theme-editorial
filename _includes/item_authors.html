@@ -1,0 +1,27 @@
+{%-comment-%}
+inputs:
+  authors                 the author array to render
+  item_type               [post, project, page, author] - the type of item to render authors for
+dependencies:
+  post                    post object that has one or more `author`s
+  site.people             people collection with `[handle, published, name]` elements
+  site.title              default `author` if none is specified
+local:
+  author                  for-loop author looked up in site.people to render
+{%-endcomment-%}
+
+{%-assign item    = article         | default: post | default: project | default: page-%}
+{%-assign authors = include.authors | default: item.author-%}
+
+    <ul class="inline csv authors">
+    {%-for auth in authors-%}
+      {%-assign author = site.people | find: 'handle', auth-%}
+      {%-if author.published-%}
+        <li>{{-author.name-}}</li>
+      {%-elsif auth-%}
+        <li>{{-auth-}}</li>
+      {%-endif-%}
+    {%-else-%}
+      <li>{{-site.title-}}</li>
+    {%-endfor-%}
+    </ul>

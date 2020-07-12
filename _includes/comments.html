@@ -1,0 +1,20 @@
+{%-if site.show.comments == true-%}
+            <!-- Section - Comments -->
+            <section class="comments h-feed p-comments">
+              {% assign comments = site.data.comments[page.type][page.slug]-%}
+            {%-if comments %}
+              <h2>Comments ({{-comments.size-}})</h2>
+              {%-assign comments = comments | where: "parent_id", ""-%}
+              {%-assign comments = comments | sort: 'date'-%}
+              {% for comment in comments-%}
+                {% include comment.html comment_fragment="comment" nesting=0 %}
+              {%-endfor %}
+            {%-else %}
+              <p class="box add-comment-message">{{ site.comments.add_comment_message | default: "Woohoo, looks like you'll be the first to comment!" }}</p>
+            {%-endif %}
+              <!-- Comment Form -->
+              <div id="comment-form">
+                {% include comment_form.html %}
+              </div>
+            </section> <!-- End Section - Comments -->
+{%-endif %}

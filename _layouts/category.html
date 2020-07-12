@@ -1,0 +1,23 @@
+---
+layout:           default
+---
+
+{%-assign title     = page.title    | default: page.category | capitalize | prepend: 'Filed under "' | append: '"'-%}
+{%-assign projects  = site.projects | where_exp: 'project', 'project.categories contains page.title and project.published == true'-%}
+{%-assign pages     = site.pages    | where_exp: 'pg',      'pg.categories      contains page.title and pg.published == true'-%}
+
+<section>
+  {% include page_header.html page_title=title %}
+  <!-- Page Content -->
+  <hr class="major"/>
+  <!-- <h2><i class="far fa-sticky-note" style="font-size: 0.9em;"></i>&nbsp; Posts</h2> -->
+  {% include posts.html %}
+  {% if projects != empty-%}
+  <h2><i class="fas fa-project-diagram" style="font-size: 0.7em;"></i>&nbsp; Projects {{ title-}}</h2>
+  {% include projects.html %}
+  {%-endif-%}
+  {% if pages != empty-%}
+  <h2><i class="far fa-file-alt" style="font-size: 0.8em;"></i>&nbsp; Pages {{ title-}}</h2>
+  {% include pages.html %}
+  {%-endif-%}
+</section>

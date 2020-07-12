@@ -1,0 +1,9 @@
+{%-assign header_url    = page.header_url       | default: site.url-%}
+<!-- Site Header -->
+          <header id="header">
+            <a href="{{-header_url-}}" class="logo u-url"><strong>{{-site.title-}}</strong> {{ site.subtitle-}}</a>
+            {% include social_media_list.html %}
+          </header>
+          {% if page.layout == 'post'-%}
+            {%-include post_nav.html-%}
+          {%-endif-%}

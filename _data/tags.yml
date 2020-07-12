@@ -1,0 +1,50 @@
+# these tags will show up as menu subitems under the main tag page
+# unfortunately, that means each new tag needs to also be included here
+# remove all items below to remove submenu items from the sidebar
+# descriptions:   not yet shown anywhere, but would be useful on the main tags page
+- name:         nulla
+  description:  
+- name:         amet
+  description:  
+- name:         lolligag
+  description:  
+- name:         whizbang
+  description:  
+- name:         tempus
+  description:  
+- name:         sed
+  description:  
+- name:         aenean
+  description:  
+- name:         whifflepuff
+  description:  
+- name:         ping pong
+  description:  
+- name:         wompus
+  description:  
+- name:         polar bears
+  description:  
+- name:         ullamcorper
+  description:  
+- name:         tempus
+  description:  
+- name:         facilis
+  description:  
+- name:         fuzzy wuzzy
+  description:  
+- name:         goofyfoot
+  description:  
+- name:         tiddlywinks
+  description:  
+- name:         delicious tiremarks
+  description:  
+- name:         pigglywiggly
+  description:  
+- name:         ding-a-ling
+  description:  
+- name:         oompaloompa
+  description:  
+- name:         meta
+  description:  
+- name:         terms
+  description:  

@@ -1,0 +1,32 @@
+{%-assign published_projects  = site.projects           | where: 'published', true -%}
+{%-assign project_menu        = site.data.menus.sidebar | find: 'identifier', 'projects' -%}
+{%-if published_projects != empty %}
+          <!-- Section - Mini-posts -->
+          <section>
+            <header class="major">
+              <h2><a href="{{-include.mini_posts_url | default: project_menu.url | default: '/projects'-}}" title="See all {{ include.section_title | default: project_menu.title | default: 'projects' | downcase-}}">{{-include.section_title | default: project_menu.title | default: "Projects"-}}</a></h2>
+            </header>
+            <div class="mini-posts">
+            {%-for project in site.projects-%}
+              {%-if project.published == true %}
+              <article>
+                <header>
+                  <h3><a href="{{-project.url-}}" title="{{-project_menu.title | capitalize }} page for '{{-project.title-}}'">{{-project.title-}}</a></h3>
+                </header>
+                <figure>
+                  <a href="{{-project.url-}}" title="{{-project_menu.title | capitalize }} page for '{{-project.title-}}'" class="image">
+                    {% include item_image.html %}
+                  </a>
+                </figure>
+                <p>{{-project.summary | markdownify-}}</p>
+              </article>
+              {%-endif-%}
+            {%-endfor %}
+            </div>
+            {%-if site.show.more_button %}
+            <ul class="actions">
+              <li><a href="{{-include.mini_posts_url | default: project_menu.url | default: '/projects'-}}" title="See all {{ include.section_title | project_menu.title | default: 'projects' | downcase-}}" class="button">More</a></li>
+            </ul>
+            {%-endif %}
+          </section> <!-- End Section - Mini-posts -->
+{%-endif %}

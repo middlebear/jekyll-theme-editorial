@@ -1,0 +1,8 @@
+# use <meta> tags in the <head> for more fine-grained control of indexing, not 
+# just crawling
+User-agent: *
+Disallow:   /admin/
+Disallow:   /signin
+Disallow:   /?s=
+Disallow:   /search
+Sitemap:    /sitemap.xml

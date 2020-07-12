@@ -1,0 +1,29 @@
+---
+# default.html is the base layout for the site. it includes the skeletal
+#              elements like the header, sidebar, and footer, that go 
+#              around every page on the site
+# 
+---
+<!DOCTYPE html>
+<html lang="{{-page.lang | default: site.lang | default: 'en'-}}">
+  <head>
+    <!-- <title>{{-site.title-}}</title> -->
+    {% include head.html %}
+  </head>
+  <body class="{{-page.body_class | default: page.collection | append: ' '-}}is-preload">
+    <div id="wrapper">
+      <main id="main" aria-label="Content">
+        <!-- Main Page Content -->
+        <div class="inner">
+          {% include site_header.html %}
+          {{ content }}
+        </div>
+      </main>
+      
+      {% include sidebar.html %}
+    </div> <!-- End Wrapper -->
+
+    <!-- Scripts -->
+    {%-include scripts.html %}
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<!-- Newsletter Signup -->
+<section>
+  {% assign title = site.newsletter.heading | default: "Newsletter"-%}
+  <header class="major">
+    <h2>{{-title-}}</h2>
+  </header>
+  {{ site.newsletter.message | default: "Sign up for our periodic email newsletter! You probably need an online [form handler](https://jekyllrb.com/resources/#forms 'See Jekyll's favorite form handlers here') of some sort for this form to POST to, or it won't work, naturally." | markdownify }}
+
+  <form method="post" action="{{-include.signup_url | default: '/newsletter_signup'-}}">
+    <div class="row gtr-uniform">
+      <div class="col-12">
+        <input type="email" name="email" id="email" value="" placeholder="Email Address">
+      </div>
+      <!-- Break -->
+      <div class="col-12">
+        <ul class="actions">
+          <li><input type="submit" value="{{-include.signup_text | default: 'Sign Up'-}}" class="primary"></li>
+        </ul>
+      </div>
+    </div>
+  </form> <!-- End Newsletter Signup -->
+</section>

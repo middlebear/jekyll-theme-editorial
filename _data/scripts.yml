@@ -1,0 +1,13 @@
+# Scripts to be included before the closing `<\body>` tag of the default layout
+#         you can customize the script type & path; only set these if needed
+#         the default `type` is 'text/javascript'
+#         the default `path` is '/assets/js/'
+- file: jquery.min.js
+  type: # default: 'text/javascript'
+  path: # default: '/assets/js/'
+- file: browser.min.js
+- file: breakpoints.min.js
+- file: util.js
+- file: main.js
+- file: email-obfuscation.js
+- file: comments.js

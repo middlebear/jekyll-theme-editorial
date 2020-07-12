@@ -1,0 +1,306 @@
+###################
+# Site settings
+###################
+# title & subtitle  appears in the top header of the page to consistently brand
+#                   your site; these aren't page titles, which are set per-page
+# tagline           used by jekyll-seo-tag & optionally on the home page banner
+# url               the production URL of your site; note this won't be used in
+#                   dev mode unless `JEKYLL_ENV=production` is prepended;
+#                   override on per-page basis w/ `header_url` in front matter
+title:              Editorial                 # used by jekyll-seo-tag & jekyll-feed
+subtitle:           by HTML5 UP; Jekyllized by Middlebear
+tagline:            A free, responsive Jekyll blog template # used by jekyll-seo-tag
+description: >-                               # used by jekyll-seo-tag & jekyll-feed
+  Write an awesome description for your new site under the 'description' key in
+  _config.yml. It will appear in your document head meta (for Google search 
+  results) and in your feed.xml site description.
+author:             your-name                 # used by jekyll-seo-tag & jekyll-feed
+email:              your-email@example.com    # used as contact email, unless obfuscated_email is present
+baseurl:            ""                        # leave as empty string unless site lives in a sub-path like '/blog/'
+url:                "https://middlebear.org"  # used by jekyll-seo-tag & jekyll-feed
+logo:               "/assets/images/logo.png" # used by jekyll-seo-tag
+lang:               # default is en-us        # used by jekyll-seo-tag
+timezone:           America/Los_Angeles       # set this to a standardized TZ name: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+date_format:                                  # optional; set the way dates are formatted throughout the site - see https://ruby-doc.org/core/Time.html#method-i-strftime
+
+
+###################
+# Build settings
+###################
+theme:              jekyll-theme-editorial    # this theme! =)
+permalink:          /:collection/:title:output_ext  # NOTE: changing this default hasn't been tested
+# lsi:                true                      # provides related posts functionality using classifier-reborn - unsupported by github pages
+
+
+
+###################
+# Collections
+###################
+collections:                                  # The theme currently supports these 3 collections by default: [people, pages, projects]
+  people:                                     # find/put people in `\_people`
+    output:         true                      # set to `false` to not generate author pages for site authors
+  pages:                                      # find/put pages in `\_pages`
+    output:         true
+  projects:                                   # find/put projects in `\_projects`
+    output:         true
+
+
+
+###################
+# Theme settings
+# TODO: namespace these settings with theme name? e.g., jekyll-theme-editorial: ...
+###################
+contact:                                      # this info shows up in the contact area of the sidebar; leave any blank that you don't wish to share
+  name:             "Name for contacting you"
+  heading:          "Get in touch"
+  message:          "You can obfuscate your email address to reduce spam. Click on the 'contact email' link below to reveal the real email."
+  email_key:        144                       # choose a number between 0-255; use this key to generate obfuscated_email using the encodeEmail() function in the browser's javascript console
+  obfuscated_email: "90e9ffe5e2bdf5fdf1f9fcd0f5e8f1fde0fcf5bef3fffd" # https://andrewlock.net/simple-obfuscation-of-email-addresses-using-javascript/
+  phone:            "(000) 000-0000"          # shows up in the contacts section of the sidebar
+  address:                                    # shows up in the contacts section of the sidebar
+    line1:          "1 Infinite Loop"
+    city:           "Cupertino"
+    state:          "CA"
+    zipcode:        "95014"
+image_path:         '/assets/images/'         # site-wide default path for images
+script_path:        '/assets/js/'             # site-wide default path for scripts
+style_path:         '/assets/css/'            # site-wide default path for styles
+# NOTE that if you want site author pages to not be generated, you have to set 
+#      `output: false` under the people collection setting in Collections above
+# ALSO NOTE that any link tags to authors will break if people are not output
+#      and jekyll-mentions will still @-link to non-existent author pages
+show:                                         # series of switches to customize what appears on the site
+  authors:          true                      # single author blogs may want to disable showing the same author everywhere
+  post_authors:     true                      # you may still want to show the author(s) at the bottom of posts
+  page_authors:     true                      # you may still want to show the author(s) for pages
+  project_authors:  true                      # you may still want to show the author(s) for projects
+  search:           true                      # show search box
+  contact:          true                      # show site contact information
+  email_address:    true                      # show email address on contact form
+  newsletter:       true                      # show newsletter sighup
+  comments:         true                      # site-wide comments toggle
+  alt_archive_links: false                    # set to true when pages exist for tags/categories that only exist for projects and pages, not posts
+  more_button:      true                      # show more button in sidebar and on article cards
+include_summary:    [projects]                # collections for which to show the summary in the header
+exclude_dates:      [people, pages]           # collections for which to not show dates in the header
+related_posts_limit: 4                        # site-wide number of related_posts to show
+comments:                                     # NOTE: only tested so far with the staticman commenting system
+  form_action:                                # this is where the comments form will post to; won't be used if staticman_url is supplied
+  email_title:      "Send us a message!"
+  contact_text:     "Send a message"
+  max_nesting:      3                         # more than about 5 levels of replies makes comments hard to read
+  allow_markdown:   true                      # NOTE: allowing markdown makes comments more susceptible to comment spam, due to links support
+  add_comment_message: # "Be the first to comment!"
+analytics:
+  goatcounter:                                # goatcounter for personal websites is free
+    code:                                     # required if using goatcounter for stats; leave blank otherwise
+    allow_local:    false                     # set `true` to test analytics locally, otherwise stats won't be sent from localhost to goatcounter
+staticman_url:      # https://{{bridge_app_name}}.herokuapp.com/v2/entry/{{github-username}}/{{blog-repo}}/{{branch}}/comments
+search:                                       # site search parameters; NOTE: untested for now
+  url:                                        # default: "/search"; where the search form POSTs to
+  form_method:                                # default: "post";    typically "post" or "get"--how the search form gets submitted
+  field_id:                                   # default: "query";   the id attribute of the search field
+  field_name:                                 # default: "search";  the name attribute of the search field
+  placeholder:                                # default: "Search";  the placeholder attribute of the search field
+scripts:                                      # these scripts entries can be moved to `_data/scripts.yml` for cleaner and more dynamic script inclusion
+  - file: jquery.min.js
+  - file: browser.min.js
+  - file: breakpoints.min.js
+  - file: util.js
+  - file: main.js
+  - file: email-obfuscation.js
+  - file: comments.js
+
+
+
+###################
+# Page Defaults
+###################
+defaults:
+  - scope:
+      path:         ""
+    values:
+      layout:       "default"
+      type:         "pages"
+      comments:     false
+      published:    true
+  - scope:
+      path:         ""
+      type:         "posts"
+      image:        /assets/images/default-card.png # default twitter card image for jekyll-seo-tag plugin
+    values:
+      layout:       "post"
+      menus:        'posts'                   # used by jekyll-menus plugin
+      type:         "posts"
+      body_class:   "post"                    # overrides the class attribute on the html body tag
+      image_path:   "/assets/images/"
+      author_bio:   "<p>We're still working on a fabulous author bio and page. Check back later to learn more!</p>"
+      comments:     true
+      published:    true
+  - scope:
+      path:         ""
+      type:         "people"
+    values:
+      layout:       "author"
+      menus:        'authors'                 # used by jekyll-menus plugin
+      type:         "people"
+      image_path:   "/assets/images/"
+      author_bio:   "<p>We're still working on a fabulous author bio and page. Check back later to learn more!</p>"
+      comments:     false
+      published:    true
+  - scope:
+      path:         ""
+      type:         "pages"
+    values:
+      layout:       "page"
+      type:         "pages"
+      image_path:   "/assets/images/"
+      comments:     false
+      published:    true
+  - scope:
+      path:         ""
+      type:         "projects"
+    values:
+      layout:       "project"
+      menus:        'projects'                # used by jekyll-menus plugin
+      type:         "projects"
+      image_path:   "/assets/images/"
+      comments:     false
+      published:    false
+  - scope:
+      path:         "/assets/images"
+    values:
+      image:        true
+
+
+
+###################
+# Plugins
+###################
+# NOTE: plugin detection relies on this array; make sure to list the plugins 
+#       being used here, even if listed in the `Gemfile :jekyll_plugins` group
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  # - jekyll-remote-theme       # to use this theme on github pages
+  # - jekyll-paginate
+  # - jekyll-mentions
+  # - jekyll-sitemap
+  # - jemoji
+  # - jekyll-archives         # unsupported by github pages
+  # - jekyll-hashtags         # unsupported by github pages
+  # - jekyll-menus            # unsupported by github pages
+  # - jekyll-paginate-v2      # unsupported by github pages
+  # - jekyll-webmentions      # unsupported by github pages
+
+
+###################
+# Jekyll Feed     - https://github.com/jekyll/jekyll-feed
+###################
+feed:
+  excerpt_only:     true
+  categories:                 # See jekyll-feed documentation for config options
+  collections:                # See jekyll-feed documentation for config options
+
+
+###################
+# Jekyll Mentions - https://github.com/jekyll/jekyll-mentions
+###################
+jekyll-mentions:    /people
+
+
+###################
+# Remote Theme    - https://github.com/benbalter/jekyll-remote-theme
+#   only needed on github pages, which automatically compiles jekyll for you
+###################
+remote_theme:       middlebear/jekyll-theme-editorial
+# remote_theme:       middlebear/jekyll-theme-editorial@0.1.0   # to lock to a given version
+
+
+###################
+# Jekyll Paginate - https://jekyllrb.com/docs/pagination/
+###################
+# paginate:           3
+paginate_path:      "/posts/:num/"
+
+
+###################
+# Jekyll Paginate v2 (unsupported by github pages) - https://github.com/sverrirs/jekyll-paginate-v2
+###################
+pagination:
+  enabled: false              # Site-wide kill switch, disabled here it doesn't run at all 
+  debug: false                # Set to 'true' to enable pagination debugging. This can be enabled in the site config or only for individual pagination pages
+  per_page: 12                # How many objects per paginated page, used to be `paginate` (default: 0, means all)
+  # collection: 'posts'         # The default document collection to paginate if nothing is specified ('posts' is default)
+  # permalink: '/page/:num/'    # Pages are index.html inside this folder (default)
+  # permalink: '/page/:num.html' # Pages are simple html files 
+  # permalink: '/page/:num'     # Pages are html files, linked jekyll extensionless permalink style.
+  # title: ':title - page :num' # Optional the title format for the paginated pages (supports :title for original page title, :num for pagination page number, :max for total number of pages)
+  # limit: 0                    # Limit how many pagenated pages to create (default: 0, means all)
+  # sort_field: 'date'          # Optional, defines the field that the posts should be sorted on (omit to default to 'date')
+  # sort_reverse: true          # Optional, sorts the posts in reverse order (omit to default decending or sort_reverse: true)
+  # category: 'posts'           # Optional, the default category to use, omit or just leave this as 'posts' to get a backwards-compatible behavior (all posts)
+  # tag: ''                     # Optional, the default tag to use, omit to disable
+  # locale: ''                  # Optional, the default locale to use, omit to disable (depends on a field 'locale' to be specified in the posts, in reality this can be any value, suggested are the Microsoft locale-codes (e.g. en_US, en_GB) or simply the ISO-639 language code )
+  # trail:                      # Optional, omit or set both before and after to zero to disable. Controls how the pagination trail for the paginated pages look like. 
+  #   before: 2
+  #   after: 2
+  # extension: html             # Optional, the default file extension for generated pages (e.g html, json, xml). Internally this is set to html by default
+  # indexpage: 'index'          # Optional, the default name of the index file for generated pages (e.g. 'index.html'). Without file extension
+
+
+###################
+# Jekyll Hashtags (unsupported by github pages) - https://github.com/mynux/jekyll-hashtags
+###################
+# NOTE: the `/tags` base_url is only available if jekyll-archives is installed;
+#       use twitter or another base_url if jekyll-archives is not available
+jekyll-hashtags:
+  # base_url:         https://twitter.com/hashtag/
+  base_url:         /tags
+
+
+###################
+# Jekyll Archives (unsupported by github pages) - https://github.com/jekyll/jekyll-archives
+###################
+archives_root:      '/'       # set this to the path prefix for all date-based archives pages, e.g., '/archives'
+jekyll-archives:
+  enabled:          [month, year, categories, tags]
+  layouts:
+    year:           archive
+    month:          archive
+    day:            archive
+    category:       category
+    tag:            tag
+  permalinks:
+    year:           '/:year/'
+    month:          '/:year/:month/'
+    day:            '/:year/:month/:day/'
+    tag:            '/tags/:name/'
+    category:       '/categories/:name/'
+
+
+###################
+# Jekyll SEO Tag  - https://github.com/jekyll/jekyll-seo-tag
+###################
+twitter:
+  username:         jekyllrb  # This site's Twitter handle
+  card:             summary   # This site's default card type
+facebook:
+  app_id:           1239284   # Facebook app ID for Facebook insights
+  publisher:        1232529   # Facebook page URL or ID of the publishing entity
+  admins:           1236093   # Facebook user ID for domain insights linked to a personal account
+social:                       # use `_data/social.yml` to configure visible links to social media
+  name:             "Your Name"
+  links:
+    - https://twitter.com/middlebear2
+    - https://gravatar.com/middlebear2
+    - https://github.com/middlebear
+    - https://rubygems.org/profiles/middlebear
+    - https://twitter.com/jekyllrb
+    - https://github.com/jekyll
+webmaster_verifications:
+  google:           UA-1234-1
+  bing:             1234
+  alexa:            1234
+  yandex:           1234
+  baidu:            1234

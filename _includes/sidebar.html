@@ -1,0 +1,11 @@
+<!-- Sidebar -->
+      <div id="sidebar">
+        <div class="inner">
+          {% if site.show.search-%}       {% include search.html-%}             {% endif %}
+          {% include menu.html %}
+          {% if site.projects.size > 0 %} {% include mini-posts.html-%}         {% endif %}
+          {% if site.show.contact-%}      {% include contact.html-%}            {% endif %}
+          {% if site.show.newsletter-%}   {% include newsletter_signup.html-%}  {% endif %}
+          {% include footer.html %}
+        </div>
+      </div> <!-- end Sidebar -->

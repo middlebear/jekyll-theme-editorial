@@ -1,0 +1,10 @@
+<section>
+  <header class="major">
+    <h2>{{ include.section_title | default: "Features" }}</h2>
+  </header>
+  <div class="features">
+  {%- for feature in site.data.features -%}
+    {% include feature.html %}
+  {%- endfor -%}
+  </div>
+</section>

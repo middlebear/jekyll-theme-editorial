@@ -1,0 +1,15 @@
+{%-if site.plugins contains 'jekyll-archives'-%}{%-assign archives_available = true-%}{%-else-%}{%-assign archives_available = false-%}{%-endif-%}
+{%-assign categories = post.categories | default: project.categories | default: pg.categories | default: item.categories | default: page.categories-%}
+{%-assign include_category_links = "posts" | split: ', '-%}
+                {%-if categories.first and categories != empty %}
+                <!-- Categories -->
+                <ul class="{{-include.list_class | append: ' '-}}inline csv categories">
+                  {%-for category in categories %}
+                    {%-if archives_available and site.categories contains category or include_category_links contains page.collection %}
+                  <li><a href="/categories/{{-category | slugify-}}" rel="tag" class="p-category" title="Articles filed under '{{-category | capitalize-}}'">{{-category | capitalize-}}</a></li>
+                    {%-else-%}
+                  <li class="p-category">{{-category | capitalize-}}</li>
+                    {%-endif %}
+                  {%-endfor %}
+                </ul>
+                {%-endif %}

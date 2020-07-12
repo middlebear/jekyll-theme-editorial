@@ -1,0 +1,87 @@
+# a reference list of categories and tags for organization & classification 
+# update & use it to be consistent in picking categories & tags for your posts
+# the first level are categories; limit this to a small number (3-9 is ideal)
+# subsequent levels are tags, some nested; limit the nesting to 2 levels; any
+#   more levels of nesting and tags get too fine-grained; prefer 1st-level tags
+# this is an example for a news site; replace it or tailor it to your needs
+- news
+  - world
+  - u.s.
+  - local
+  - opinion
+    - op-ed
+    - editorials
+    - letters
+    - reviews
+    - "video opinion"
+  - magazine
+  - multimedia
+- politics
+  - elections
+  - ethics
+  - federal
+  - international relations
+  - law
+  - policy
+- business
+  - economics
+  - entrepreneurship
+  - finance
+  - industry
+  - management
+  - markets
+- society
+  - civics
+  - community
+  - education
+  - jobs
+  - history
+  - philosophy
+  - religion
+- science
+  - biology
+  - energy
+  - environment
+  - medicine
+  - math
+  - physics
+  - space
+  - statistics
+- technology
+  - automobiles
+  - internet
+  - products
+    - gadgets
+    - services
+  - software
+- culture
+  - entertainment
+    - movies
+    - television
+    - sports
+    - celebrities
+  - events
+  - style
+    - architecture
+    - design
+    - fashion
+    - home
+  - the media
+- arts
+  - art & design
+  - books
+  - dance
+  - music
+  - photography
+  - theater
+  - video arts
+- living
+  - food
+  - health
+  - money
+  - obituaries
+  - real estate
+  - travel
+  - classifieds
+  - tools & services
+  - weddings & celebrations

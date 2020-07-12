@@ -1,0 +1,14 @@
+<!-- Post Navigation -->
+          <div class="post-nav">
+            {% if page.previous-%}
+              <span class="align-left icon solid fa-angle-double-left"> <a href="{{-page.previous.url-}}" rel="previous" title="Previous post">{{-page.previous.title-}}</a></span>
+            {%-else-%}
+              <span>&nbsp;</span>
+            {% endif-%}
+            <span class="align-center"><a rel="up index" href="/posts/">All Posts</a></span>
+            <span class="align-right">
+              {%-if page.next-%}
+                <a href="{{-page.next.url-}}" rel="next" title="Next post">{{-page.next.title-}}</a> &nbsp;<i class="icon solid fa-angle-double-right"></i>
+              {%-endif-%}
+            </span>
+          </div>

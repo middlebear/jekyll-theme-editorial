@@ -1,0 +1,110 @@
+{%-assign item_limit  = include.item_limit | default: 12-%}
+{%-assign peeps       = site.collections | find: "label", 'people'-%}
+
+{%-if site.menus != nil and site.plugins contains 'jekyll-menus' %}
+          {% comment-%} the following version of the menu depends on jekyll-menus {%-endcomment-%}
+          <!-- Nav - Menu -->
+          <nav id="menu">
+            <header class="major">
+              <h2>Menu</h2>
+            </header>
+            <ul>
+            {% for item in site.menus.sidebar-%}
+              {% if item.identifier == "authors" and site.show.authors != true or peeps.output != true-%}
+                {%-continue-%}
+              {% endif-%}
+              <li class="menu-item-{{-forloop.index-}}{%-if item.url == page.url %} active{%-endif-%}">
+              {% if item.children-%}
+              {%-assign urls = item.children | map: 'url'-%}
+                <span class="opener{%-if item.url == page.url or urls contains page.url %} active{%-endif-%}">
+                  {%-comment-%}NOTE: a `find_exp` here seems to cause ruby to deadspin, perhaps because of the page_excerpts feature in 4.1.0: https://jekyllrb.com/news/2020/06/24/jekyll-4-1-1-released/{%-endcomment-%}
+                  {%-assign item_page = site.documents | where_exp: "doc", "doc.url contains item.url"-%}
+                {%-if item_page.first.published-%}
+                  <a href="{{-item.url-}}" title="Go to {{ item.title-}}">{{-item.title-}}</a>
+                {%-else-%}
+                  {{-item.title-}}
+                {%-endif-%}
+                </span>
+                <ul class="sub-menu">
+                {% for item in item.children limit: item_limit-%}
+                  {%-comment-%}
+                    NOTE: above, can't sort items by date, because Jekyll:Menus:Drops:Items don't have dates, only weights
+                    NOTE: below, a `find_exp` here seems to cause ruby to deadspin, perhaps because of the page_excerpts feature in 4.1.0: https://jekyllrb.com/news/2020/06/24/jekyll-4-1-1-released/
+                  {%-endcomment-%}
+                  {%-assign item_page = site.documents | where_exp: "doc", "doc.url contains item.url"-%}
+                  {% if item_page.first.published-%}
+                  <li class="menu-item-{{-forloop.index-}}{%-if item.url == page.url %} active{%-endif-%}">
+                    <a href="{{-item.url-}}" title="Go to {{ item.title-}}">{{-item.name | default: item.title-}}</a>
+                  </li>
+                  {% endif-%}
+                {% endfor-%}
+                </ul>
+                {% else-%}
+                <a href="{{-item.url-}}" title="Go to {{ item.title-}}">{{-item.name | default: item.title-}}</a>
+              {% endif-%}
+              </li>
+            {% endfor-%}
+            {%-if site.plugins contains 'jekyll-archives' %}{% include archives_menu.html %}{% endif-%}
+            </ul>
+          </nav> <!-- End Nav - Menu -->
+{%-else-%}
+  {%-assign items = site.data.navigation | default: site.data.menus.sidebar-%}
+          <!-- Nav - Menu -->
+          <nav id="menu">
+            <header class="major">
+              <h2>Menu</h2>
+            </header>
+            <ul>
+            {% comment-%} TODO: convert this to use `site.data.menus.sidebar` {%-endcomment-%}
+            {% for item in items-%}
+              {%-assign parent_url = item.url | append: '/'-%}
+              {%-if item.identifier == 'posts' and site.posts-%}
+                {%-assign menu_items = site.posts-%}
+                {% include submenu.html parent_url=parent_url parent_title=item.title-%}              
+              {%-elsif item.identifier == 'categories' and site.data.categories-%}
+              <li{%-if item_url == page.url %} class="active"{%-endif-%}>
+                <span class="{%-if site.plugins contains 'jekyll-archives'-%}opener{%-endif-%}{%-if page.url contains item.url %} active{%-endif-%}">
+                  <a href="{{-item.url-}}">{{-item.title-}}</a>
+                </span>
+                {%-if site.plugins contains 'jekyll-archives'-%}
+                <ul class="sub-menu">
+                  {% for subitem in site.data.categories-%}
+                    {%-if site.categories contains subitem.name %}
+                      {%-assign item_url = subitem.name | slugify | prepend: '/categories/' | append: '/'-%}
+                  <li{%-if item_url == page.url %} class="active"{%-endif-%}><a href="{{-item_url-}}">{{-subitem.name | default: subitem.title-}}</a></li>
+                    {%-endif-%}
+                  {% endfor-%}
+                </ul>
+                {%-endif-%}
+              </li>
+              {%-elsif item.identifier == 'tags' and site.data.tags-%}
+              <li{%-if item_url == page.url %} class="active"{%-endif-%}>
+                <span class="{%-if site.plugins contains 'jekyll-archives'-%}opener{%-endif-%}{%-if page.url contains item.url %} active{%-endif-%}">
+                  <a href="{{-item.url-}}">{{-item.title-}}</a>
+                </span>
+                {%-if site.plugins contains 'jekyll-archives'-%}
+                <ul class="sub-menu">
+                  {% for subitem in site.data.tags-%}
+                    {%-if site.tags contains subitem.name %}
+                      {%-assign item_url = subitem.name | slugify | prepend: '/tags/' | append: '/'-%}
+                  <li{%-if item_url == page.url %} class="active"{%-endif-%}><a href="{{-item_url-}}">{{-subitem.name | default: subitem.title-}}</a></li>
+                    {%-endif-%}
+                  {% endfor-%}
+                </ul>
+                {%-endif-%}
+              </li>
+              {%-elsif item.identifier == 'projects' and site.projects-%}
+                {%-assign menu_items = site.projects-%}
+                {% include submenu.html parent_url=parent_url parent_title=item.title-%}
+              {%-elsif item.identifier == 'authors' and site.people and site.show.authors-%}
+                {%-assign menu_items = site.people-%}
+                {% include submenu.html parent_url=parent_url parent_title=item.title-%}
+              {%-elsif item.identifier == 'archives' and site.plugins contains 'jekyll-archives'-%}
+                {% include archives_menu.html %}
+              {%-else-%}
+              <li{%-if item.url == page.url %} class="active"{%-endif-%}><a href="{{-item.url-}}">{{-item.title-}}</a></li>
+              {%-endif-%}
+            {% endfor-%}
+            </ul>
+          </nav> <!-- End Nav - Menu -->
+{%-endif-%}

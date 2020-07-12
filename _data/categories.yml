@@ -1,0 +1,38 @@
+# these categories will show up as menu subitems under the main category page
+# unfortunately, that means each new category needs to also be included here
+# remove all items below to remove submenu items from the sidebar
+# descriptions:   not yet shown anywhere, but would be useful on the main categories page
+- name:         news
+  description:  Current news items from across the world.
+- name:         politics
+  description:  Local/national/international political systems, political parties, or legislation.
+- name:         business
+  description:  Business happenings, the economy, markets, and trade.
+- name:         society
+  description:  Social issues and community happenings.
+- name:         science
+  description:  The pursuit of an understanding of the natural universe.
+- name:         technology
+  description:  Science applied to human endeavors to advance our lives.
+- name:         culture
+  description:  The societal patterns and fashions that binds us together.
+- name:         arts
+  description:  Expressions to provoke thought and entertain.
+- name:         living
+  description:  How we make lives, homes, communities and neighborhoods.
+- name:         chortle puffs
+  description:  An asinine exemplar of a category.
+- name:         editorial
+  description:  Opinions, and/or a certain Jekyll theme.
+- name:         jekyll
+  description:  A certain static-site builder, but definitely not the fictional character.
+- name:         polar bears
+  description:  WHO DOESN'T LIKE POLAR BEARS, right?
+- name:         yup polar bears again
+  description:  What better than to have ANOTHER category for polar bears.
+- name:         vistas
+  description:  You know, places to go look at the view. Definitely not the crappy Windows version.
+- name:         heavenly
+  description:  Oh so purty!
+- name:         site
+  description:  All the stuff pertaining to this site.
