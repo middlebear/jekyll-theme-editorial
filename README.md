@@ -123,6 +123,27 @@ At this point, you may also want to change the name of this file from `index.mar
 
 Assuming you left `jekyll serve` running, efresh your browser (on `http://localhost:4000/`) to see the changes so far. You should see a banner with an image, an empty Features section, and an Articles section with one post, "Welcome to Jekyll!".
 
+#### Add asset paths to site configuration
+
+Since its 4.0 release, Jekyll has supported theme configuration defaults by including a `_config.yml` file in the theme gem. This support doesn't yet seem to be universal however. If you're working in an environment that doesn't yet support config defaults being pulled from the theme's gem (like Github pages), you'll need to directly add site asset paths to your `_config.yml`:
+
+```yaml
+###################
+# Theme settings
+###################
+image_path:         '/assets/images/'         # site-wide default path for images
+script_path:        '/assets/js/'             # site-wide default path for scripts
+style_path:         '/assets/css/'            # site-wide default path for styles
+scripts:                                      # these scripts entries can be moved to `_data/scripts.yml` for cleaner and more dynamic script inclusion
+  - file: jquery.min.js
+  - file: browser.min.js
+  - file: breakpoints.min.js
+  - file: util.js
+  - file: main.js
+  - file: email-obfuscation.js
+  - file: comments.js
+```
+
 #### Change the site title/subtitle
 
 The title and subtitle of the site is configured by the site's `_config.yml` file, since this is usually a one-time configuration at the start of creating your site. Find this line in `_config.yml`:

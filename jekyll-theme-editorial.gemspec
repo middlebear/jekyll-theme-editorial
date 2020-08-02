@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = "jekyll-theme-editorial"
-  s.version       = "1.0.0"
+  s.version       = "1.0.1"
   s.authors       = ["Middle Bear"]
   s.email         = ["admin@middlebear.org"]
   s.summary       = "Editorial, a Jekyll theme based on the Editorial template by HTML5 UP, Jekyllized by Middlebear."
@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.metadata["plugin_type"] = "theme"
 
-  s.files         = `git ls-files -z`.split("\x0").select { |f| f.match(%r!^(assets|_data|_includes|_layouts|_pages|_people|_posts|_projects|_samples|_sass|_config.yml|404.html|[\w-]+.md|favicon|robots.txt|staticman.yml|LICENSE|README)!i) }
+  s.files         = `git ls-files -z`.split("\x0").select { |f| f.match(%r!^(assets|_data|_includes|_layouts|_pages|_people|_posts|_projects|_samples|_sass|_config\.yml|404.html|[\w-]+.md|favicon|robots.txt|staticman.yml|LICENSE|README)!i) }
 
   s.add_runtime_dependency "jekyll", "~> 4.0"
   # TODO: remove these 2 gems as runtime dependencies
