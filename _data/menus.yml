@@ -1,5 +1,4 @@
 # `jekyll-menus`site navigation is built from this hierarchical list
-#   TODO: remove navigation.yml once menu.html code is updated to use this yml file
 sidebar:
   - url:        /
     title:      Home

@@ -1,12 +1,13 @@
 ---
 title:            Categories
 date:             2020-01-03 01:23:45 -0800
-permalink:        /categories/  # trailing slash makes it an `index.html` file inside the `/categories/` directory, rather than a `categories.html` file in the root
+permalink:        /categories/          # trailing slash makes it an `index.html` file inside the `/categories/` directory, rather than a `categories.html` file in the root
 # dependencies:
 #   site.show.authors     sitewide switch to show authors or not
 #   site.projects         to show categorized projects
 #   site.pages            to show categorized pages
 ---
+
 {%-if site.plugins contains 'jekyll-archives'-%}{%-assign archives_available = true-%}{%-else-%}{%-assign archives_available = false-%}{%-endif-%}
 {%-assign sorted_categories   = site.categories     | sort %}
 {%-assign published_projects  = site.projects       | where: 'published', true-%}

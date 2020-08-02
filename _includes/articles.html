@@ -34,7 +34,9 @@ local:
   </header>
   <div class="{{-article_type }} posts">
   {%-for article in articles limit:list_limit-%}
+  {%-unless article.published == false-%}
     {% include article.html %}
+  {%-endunless-%}
   {%-endfor-%}
   </div>
 </section>

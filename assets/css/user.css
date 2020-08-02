@@ -260,7 +260,7 @@ ul.inline {
   ul.inline.csv li {
     padding-left: 0; }
   ul.inline.csv li:not(:last-child):after {
-    content: ", "; }
+    content: ", \200C"; }
 
 div.categories { margin-bottom: 0.5em; }
 figure + div.snug.categories ul.categories::before {

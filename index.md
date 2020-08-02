@@ -14,7 +14,7 @@ images:
     file:             "pic10.jpg"
     alt_text:         "Photo of a woman's torso holding a book and wearing a sleeveless top showing the tatoos along her right arm."
     title:            "photo: Annie Spratt, https://unsplash.com/photos/DYROsn8AyDI/"
-# features are set in `/_data/features.yml`
+# NOTE: features are set in `/_data/features.yml`
 # articles are posts by default; to change, pass in `article_type` set to one of [projects, authors, pages]
 ---
 
