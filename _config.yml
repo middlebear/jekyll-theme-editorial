@@ -283,14 +283,14 @@ jekyll-archives:
 # Jekyll SEO Tag  - https://github.com/jekyll/jekyll-seo-tag
 ###################
 twitter:
-  username:         jekyllrb  # This site's Twitter handle
+  username:         middlebear2 # This site's Twitter handle
   card:             summary   # This site's default card type
-facebook:
-  app_id:           1239284   # Facebook app ID for Facebook insights
-  publisher:        1232529   # Facebook page URL or ID of the publishing entity
-  admins:           1236093   # Facebook user ID for domain insights linked to a personal account
+# facebook:
+#   app_id:           1239284   # Facebook app ID for Facebook insights
+#   publisher:        1232529   # Facebook page URL or ID of the publishing entity
+#   admins:           1236093   # Facebook user ID for domain insights linked to a personal account
 social:                       # use `_data/social.yml` to configure visible links to social media
-  name:             "Your Name"
+  name:             "Middle Bear"
   links:
     - https://twitter.com/middlebear2
     - https://gravatar.com/middlebear2
@@ -298,9 +298,9 @@ social:                       # use `_data/social.yml` to configure visible link
     - https://rubygems.org/profiles/middlebear
     - https://twitter.com/jekyllrb
     - https://github.com/jekyll
-webmaster_verifications:
-  google:           UA-1234-1
-  bing:             1234
-  alexa:            1234
-  yandex:           1234
-  baidu:            1234
+# webmaster_verifications:
+#   google:           UA-1234-1
+#   bing:             1234
+#   alexa:            1234
+#   yandex:           1234
+#   baidu:            1234
