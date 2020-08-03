@@ -10,11 +10,10 @@
     {%-when 'pages'-%}    {%-assign series_collection = site.pages-%}
     {%-when 'people'-%}   {%-assign series_collection = site.people-%}
   {%-endcase-%}
-  {%-assign series = series_collection | where_exp: 'item', "item.series == page.series and item.published == true" | sort: 'date' %}
+  {%-assign series = series_collection | where: "series", page.series |  where: "published", true | sort: 'date' %}
 <!-- Series Aside -->
   <aside class="series">
     <header>
-      {% assign series_titles = series | find: title, page.title | map: 'title'-%}
       <h3>{{ page.series | replace: '-',' ' | capitalize }} <span class="header-aside"> - {% if page.type=='people'-%}group{%-else-%}{{ include.series_type | default: page.type | append: "-@$remove@me" | remove: "s-@$remove@me" }} series</span>{%-endif-%}</h3>
     </header>
     <ol class="series">
