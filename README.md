@@ -1137,7 +1137,7 @@ permalink:        /people/    # trailing slash makes it an `index.html` file ins
 ---
 
 {% if site.show.authors-%}
-  {% assign peeps = site.collections | find: "label", 'people'-%}
+  {% assign peeps = site.collections | where: "label", 'people' | first-%}
   {% if peeps.output-%}
     <p>Our wonderful authors love to share tales of wonder and zeal. Sometimes they go overboard and fall into the waters of silliness or cynicism. We hope you do understand, and take that into the highest consideration.</p>
     <hr class="major"/>
@@ -1159,6 +1159,24 @@ permalink:        /people/    # trailing slash makes it an `index.html` file ins
 If all went well, you should be able to refresh the ugly people index listing and get a nicely formatted one in its place.
 
 ### Add Authors to our lone post
+
+Now let's add an author or two to our lone post, so we can see author bylines and related posts on author pages. Add the follow yaml front matter to your `_posts/20yy-mm-dd-welcome-to-jekyll.md` file:
+
+```yaml
+author:           [julia, petunia]
+```
+
+Let's also remove the `layout: post` entry while we're at it, since the layout is set by the site config defaults to `post` already. The edited front matter should be,
+
+```yaml
+---
+title:            "Welcome to Jekyll!"
+author:           [julia, petunia]
+date:             2020-08-01 11:48:57 -0700
+categories:       jekyll update
+tags:             [jekyll, meta, technology, code, site, editorial theme]
+---
+```
 
 ### Add Projects
 

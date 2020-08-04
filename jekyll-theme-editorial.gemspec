@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = "jekyll-theme-editorial"
-  s.version       = "1.0.5"
+  s.version       = "1.0.6"
   s.authors       = ["Middle Bear"]
   s.email         = ["admin@middlebear.org"]
   s.summary       = "Editorial, a Jekyll theme based on the Editorial template by HTML5 UP, Jekyllized by Middlebear."

@@ -16,9 +16,9 @@ local:
   auth                    the author's handle, included only on authored pages;
                           `auth` also determines the `authored` boolean value
 {%-endcomment-%}
-{%-assign peeps       = site.collections | find: "label", 'people'-%}
-{%-assign next_post   = site.posts | find_exp: 'item', "item.author contains auth and item.url != page.url" %}
-{%-assign authored    = !!auth-%}
+{%-assign peeps       = site.collections | where: "label", 'people' | first-%}
+{%-assign next_post   = site.posts | where_exp: 'item', "item.author contains auth" | where_exp: 'item', "item.url != page.url" | first %}
+{%-if auth != empty and auth != "" and auth != nil-%}{%-assign authored = true-%}{%-else-%}{%-assign authored = false-%}{%-endif-%}
 {%-if include.show_next == false %-}{%-assign show_next = false-%}{%-else-%}{%-assign show_next = true-%}{%-endif-%}
 {%-if include.show_social == false %-}{%-assign show_social = false-%}{%-else-%}{%-assign show_social = true-%}{%-endif-%}
 <!-- Author - {{ author.handle | default: auth }} -->

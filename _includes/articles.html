@@ -18,7 +18,7 @@ local:
 {%-assign list_limit  = include.list_limit      | default: site.related_posts_limit | default: 6-%}
 
 {%-case article_type-%}
-  {%-when 'posts'-%}          {%-assign articles  = site.posts          | where: 'author', page.handle | default: site.posts-%}
+  {%-when 'posts'-%}          {%-if page.handle != empty and page.handle != "" and page.handle != nil-%}{%-assign articles  = site.posts | where: 'author', page.handle-%}{%-else-%}{%-assign articles = site.posts-%}{%-endif-%}
   {%-when 'related_posts'-%}  {%-assign articles  = site.related_posts  | where: 'author', page.handle | default: site.related_posts-%}
   {%-when 'projects'-%}       {%-assign articles  = site.projects       | where: 'author', page.handle | default: site.projects-%}
   {%-when 'authors'-%}        {%-assign articles  = site.people         | where: 'author', page.handle | default: site.posts-%}
@@ -33,10 +33,14 @@ local:
     <h2>{{-include.section_title | default: "Articles"-}}</h2>
   </header>
   <div class="{{-article_type }} posts">
+{%-if articles != empty-%}
   {%-for article in articles limit:list_limit-%}
   {%-unless article.published == false-%}
     {% include article.html %}
   {%-endunless-%}
   {%-endfor-%}
+{%-else-%}
+  <article class="post-card">Looks like there are no {{ include.section_title | default: "Articles" }} here yet!</article>
+{%-endif-%}
   </div>
 </section>
