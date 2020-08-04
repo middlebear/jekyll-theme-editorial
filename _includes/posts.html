@@ -1,5 +1,5 @@
-{%-assign peeps         = site.collections      | find: "label", 'people'-%}
-{%-assign placeholder   = site.static_files     | find: 'name', 'placeholder.png'-%}
+{%-assign peeps         = site.collections      | where: "label", 'people' | first-%}
+{%-assign placeholder   = site.static_files     | where: 'name', 'placeholder.png' | first-%}
 {% if paginator.posts != nil and site.paginate %}
   {% assign posts       = paginator.posts %}
 {% elsif page.layout == "page" %}
@@ -35,7 +35,7 @@
                   <p class="byline">
                   {%-if site.show.authors-%}
                     {%-for auth in post.author-%}
-                      {%-assign author = site.people | find: 'handle', auth-%}
+                      {%-assign author = site.people | where: 'handle', auth | first-%}
                       {%-if author.published and peeps.output-%}
                         <a href="{{-author.url-}}" rel="author" itemprop="author" class="u-author p-author" title="Read {{ author.name | split: ' ' | first-}}'s bio">{{-author.name-}}</a>
                       {%-elsif author.published-%}

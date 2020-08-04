@@ -18,13 +18,14 @@ layout:           default
           {%-if site.show.post_authors and page.author %}
             {% include authors.html %}
           {%-endif %}
-          {% if site.disqus.shortname-%}
+          {% if page.comments == true and site.disqus.shortname-%}
             <hr class="major"/>
             {% include disqus_comments.html %}
-          {%-endif-%}
-          {% if page.comments == true-%}
+          {%-elsif page.comments == true-%}
             <hr class="major"/>
             {% include comments.html %}
+          {%-else-%}
+            <br>
           {%-endif %}
             <a class="u-url" href="{{-page.url | relative_url-}}" hidden></a>
           </article>

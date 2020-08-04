@@ -1166,7 +1166,7 @@ Now let's add an author or two to our lone post, so we can see author bylines an
 author:           [julia, petunia]
 ```
 
-Let's also remove the `layout: post` entry while we're at it, since the layout is set by the site config defaults to `post` already. The edited front matter should be,
+Let's also remove the `layout: post` entry while we're at it, since the layout is set by the site config defaults to `post` already. The edited front matter should look like:
 
 ```yaml
 ---
@@ -1177,6 +1177,19 @@ categories:       jekyll update
 tags:             [jekyll, meta, technology, code, site, editorial theme]
 ---
 ```
+
+Now refresh our lone post, and we should now see a byline with julia and petunia listed as authors. Julia should even be conveniently linked to her author page (and only her, because petunia is not yet published). If you navigate to her author page, you'll now see our one post listed under her "Authored Posts" section.
+
+#### Add Author cards to posts
+
+Instead of only linking to author pages, we can also show author cards at the bottom of posts, and link those to full author pages. To do so, we need to add a `post_authors` configuration key to `_config.yml` under the `show` key:
+
+```yaml
+show:                                         # series of switches to customize what appears on the site
+  authors:          true                      # single author blogs may want to disable showing the same author everywhere
+  post_authors:     true                      # you may still want to show the author(s) at the bottom of posts
+```
+Now restart our Jekyll server since we changed our site config, and refresh the post page to see the changes. You'll notice two author cars, one each for julia and petunia, at the bottom of the post. Our byline now helpfully links down to those author cards instead of directly to the author pages. The cards link to the full author pages instead. Notice that petunia's card doesn't link, since she's unpublished, and therefore doesn't have an author page yet.
 
 ### Add Projects
 
