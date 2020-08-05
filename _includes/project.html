@@ -1,0 +1,57 @@
+{%-comment-%}
+lists a project as a section card given a project hash
+
+inputs:
+  project                 the project to render
+dependencies:
+  site.show.authors       used to determine whether to show authors
+  site.show.project_authors used to determine whether to show authors
+  site.title              used to determine whether to show separator
+local:
+  modified_date           the proejct's modification date, if any, that differs from project.date
+{%-endcomment-%}
+
+          {%-if project.published %}
+            <article itemid="{{-project.url|absolute_url-}}" class="h-entry project-card row gtr-50 gtr-uniform" itemscope itemtype="http://schema.org/Article">
+            {% if project.images-%}
+              <div class="col-4 col-12-small">
+                <figure>
+                  <a href="{{-project.url-}}" class="image fit" title="Learn more about '{{-project.title-}}'">
+                    {% include item_image.html-%}
+                  </a>
+                </figure>
+                <div class="snug smaller categories">{%-include categories.html %}</div>
+              {%-if project.series %}
+                <div class="snug series" title="This project is part of a series">{{ project.series | replace: '-',' ' |  split: " " | join: "-----" | camelcase | split: "-----" | join: " "-}}</div>
+              {%-endif %}
+              </div>
+            {%-endif %}
+              <div class="col-8 col-12-small">
+                {%-assign modified_date = project.modified_date | default: project.last_modified_at-%}
+              {%-if modified_date-%}
+                {% include date_modified.html item_date=modified_date lead_in='last modified: '-%}
+              {%-endif %}
+                <header class="tight">
+                  <span class="header-aside">{% include item_date.html %}</span>
+                  <h3><a href="{{-project.url-}}" itemprop="name" class="u-url p-name" title="Learn more about '{{-project.title-}}'">{{-project.title-}}</a></h3>
+                  <p class="subtitle p-subtitle" itemprop="alternativeHeadline">{{-project.subtitle-}}</p>
+                  {%-if site.show.project_authors and site.show.authors and project.author or project.location-%}
+                  <div class="byline">
+                    {% include authors_byline.html page_type="index" author=project.author-%}
+                    {%-if project.location-%}
+                    {% if project.author or site.title-%}{{-" | "-}}{%-endif %}
+                    <span class="p-location" itemprop="location" title="Post location">{{-project.location-}}</span>
+                    {%-endif %}
+                  </div>
+                  {%-endif-%}
+                </header>
+                {% if include.summary or project.summary or project.excerpt-%}
+                <div class="summary p-summary" itemprop="abstract">
+                {{-include.summary | default: project.summary | default: project.excerpt | markdownify-}}
+                </div>
+                {%-endif %}
+                {%-include tags.html %}
+              </div>
+            </article>
+            <hr class="major"/>
+          {% endif %}

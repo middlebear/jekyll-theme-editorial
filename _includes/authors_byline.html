@@ -22,7 +22,10 @@ local:
 {%-assign authors       = include.author        | default: page.author-%}
 {%-assign peeps         = site.collections      | where: "label", 'people' | first-%}
 
-{%-if site.show.post_authors and page.type=="posts"-%}
+{%-if site.show.authors and include.page_type=="index"-%}
+  {%-assign show_authors      = true-%}
+  {%-assign has_author_cards  = false-%}
+{%-elsif site.show.post_authors and page.type=="posts"-%}
   {%-assign show_authors      = true-%}
   {%-assign has_author_cards  = true-%}
 {%-elsif site.show.project_authors and page.type=="projects"-%}
@@ -49,13 +52,13 @@ local:
                 {%-assign author      = site.people | where: 'handle', slug  | first-%}
                 {%-assign author_name = author.name | default: slug-%}
                 {%-if author.published and has_author_cards %}
-                  <li><a href="#{{-author.handle-}}" class="p-author" title="Read {{ author.handle-}}'s excerpt below">{{-author_name-}}</a></li>
+                  <li><a href="#{{-author.handle-}}" class="p-author" itemprop="author" title="Read {{ author.handle-}}'s excerpt below">{{-author_name-}}</a></li>
                 {%-elsif author.published and peeps.output-%}
-                  <li><a href="{{-author.url-}}" rel="author" class="p-author u-author" title="Read {{ author.handle-}}'s bio">{{-author_name-}}</a></li>
+                  <li><a href="{{-author.url-}}" rel="author" class="p-author u-author" itemprop="author" title="Read {{ author_name | split: ' ' | first-}}'s bio">{{-author_name-}}</a></li>
                 {%-elsif author.published-%}
-                  <li class="p-author">{{-author_name-}}</li>
+                  <li class="p-author" itemprop="author">{{-author_name-}}</li>
                 {%-elsif has_author_cards %}
-                  <li><a href="#{{-slug-}}" class="p-author" title="Read {{ slug-}}'s excerpt below">{{-slug-}}</a></li>
+                  <li><a href="#{{-slug-}}" class="p-author" itemprop="author" title="Read {{ slug-}}'s excerpt below">{{-slug-}}</a></li>
                 {%-else-%}
                   <li class="p-author">{{-slug-}}</li>
                 {%-endif-%}
