@@ -3,18 +3,31 @@ uses parent page settings or a special parent page.banner hash for more flexibil
 (parent) page: [title, subtitle, description, etc.]
   banner: [header, subheader, content, etc.]
 {%-endcomment-%}
+
+{%-assign static_file_names = site.static_files     | map: 'name'-%}
+{%-assign banner_header   = page.banner.header      | default: page.title                   | default: site.title-%}
+{%-assign banner_subheader= page.banner.subheader   | default: page.subtitle                | default: site.tagline-%}
+{%-assign banner_content  = page.banner.content     | default: page.description             | default: site.description-%}
+{%-assign banner_image    = page.banner.image       | default: page.images.banner.file      | default: page.images.banner           | default: page.images.default.file | default: page.images.default | default: page.image-%}
+{%-assign banner_alt_text = page.banner.alt_text    | default: page.images.banner.alt_text  | default: page.images.default.alt_text | default: page.images.alt_text     | default: page.alt_text-%}
+{%-assign banner_title    = page.banner.image_title | default: page.images.banner.title     | default: page.images.default.title    | default: page.images.title        | default: page.image_title-%}
+
 <section id="banner">
         <div class="content">
           <header>
-            <h1>{{-page.banner.header   | default: page.title     | default: site.title-}}</h1>
-            <p>{{-page.banner.subheader | default: page.subtitle  | default: site.tagline-}}</p>
+            <h1>{{-banner_header-}}</h1>
+            <p>{{-banner_subheader-}}</p>
           </header>
-          <p>{{-page.banner.content   | default: page.description | default: site.description-}}</p>
+          <p>{{-banner_content-}}</p>
           <ul class="actions">
             <li><a href="{{-page.banner.url | default: site.url-}}" title="{{-page.banner.link_title-}}" class="button big">{{-page.banner.button_text-}}</a></li>
           </ul>
         </div>
+      {%-if static_file_names contains banner_image %}
         <figure class="image object">
-          <img src="{{-site.image_path-}}{{-page.banner.image | default: page.images.banner.file | default: page.images.banner | default: page.image-}}" alt="{{-page.banner.alt_text | default: page.images.banner.alt_text | default: page.images.alt_text | default: page.alt_text-}}" title="{{-page.banner.image_title | default: page.images.banner.title | default: page.images.title | default: page.image_title-}}"/>
+          <img src="{{-site.image_path-}}{{-banner_image-}}" alt="{{-banner_alt_text-}}" title="{{-banner_title-}}"/>
         </figure>
-</section>
+      {%-else %}
+        <figure class="box"><h3>Missing image</h3>{{-banner_image-}}<br>{{-banner_title-}}</figure>
+      {%-endif %}
+      </section>

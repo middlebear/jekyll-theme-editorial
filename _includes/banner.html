@@ -1,10 +1,17 @@
-{%-assign static_file_names = site.static_files | map: 'name'-%}
-            {%-if static_file_names contains page.image or static_file_names contains page.images.banner.file or static_file_names contains page.images.default.file or static_file_names contains page.images.file %}
+{%-assign static_file_names = site.static_files           | map: 'name'-%}
+{%-assign banner_image      = page.images.banner.file     | default: page.images.banner           | default: page.images.default.file | default: page.images.default | default: page.image-%}
+{%-assign banner_alt_text   = page.images.banner.alt_text | default: page.images.default.alt_text | default: page.images.alt_text     | default: page.alt_text-%}
+{%-assign banner_title      = page.images.banner.title    | default: page.images.default.title    | default: page.images.title        | default: page.image_title-%}
+{%-assign banner_caption    = page.images.banner.caption  | default: page.images.default.caption  | default: page.images.caption      | default: page.caption-%}
+
+{%-if static_file_names contains banner_image %}
             <!-- Banner Image -->
             <figure class="image main">
-              <img src="{{-page.image_path-}}{{-page.image | default: page.images.banner.file | default: page.images.default.file-}}" title="{{-page.images.banner.title | default: page.images.default.title | default: page.images.title | default: page.image_title-}}" alt="{{-page.images.banner.alt_text | default: page.images.default.alt_text | default: page.images.alt_text | default: page.alt_text-}}"/>
-              {%-if page.caption or page.images.banner.caption or page.images.default.caption or page.images.caption or page.caption %}
-              <figcaption>{{-page.images.banner.caption | default: page.images.default.caption | default: page.images.caption | default: page.caption | markdownify-}}</figcaption>
-              {%-endif %}
-            </figure>
+              <img src="{{-page.image_path-}}{{-banner_image-}}" title="{{-banner_title-}}" alt="{{-banner_alt_text-}}"/>
+            {%-if banner_caption %}
+              <figcaption>{{-banner_caption | markdownify-}}</figcaption>
             {%-endif %}
+            </figure>
+{%-else %}
+            <figure class="box"><h3>Missing image</h3>{{-banner_image-}}<br>{{-banner_title-}}</figure>
+{%-endif %}
