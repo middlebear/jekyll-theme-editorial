@@ -3,8 +3,9 @@ layout:           default
 ---
 
 {%-assign title     = page.title    | default: page.category | capitalize | prepend: 'Filed under "' | append: '"'-%}
-{%-assign projects  = site.projects | where_exp: 'project', 'project.categories contains page.title and project.published == true'-%}
-{%-assign pages     = site.pages    | where_exp: 'pg',      'pg.categories      contains page.title and pg.published == true'-%}
+{%-assign projects  = site.projects | where_exp: "project", "project.categories contains page.title" | where: "published", "true"-%}
+{%-assign pages     = site.pages    | where_exp: "pg",      "pg.categories      contains page.title" | where: "published", "true"-%}
+
 
 <section>
   {% include page_header.html page_title=title %}

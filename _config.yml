@@ -28,8 +28,10 @@ date_format:                                  # optional; set the way dates are 
 ###################
 # Build settings
 ###################
-theme:              jekyll-theme-editorial    # this theme! =)
-permalink:          /:collection/:title:output_ext  # NOTE: changing this default hasn't been tested
+theme:              jekyll-theme-editorial                      # this theme! =)
+remote_theme:       middlebear/jekyll-theme-editorial           # only needed on github pages, which automatically compiles jekyll for you
+# remote_theme:       middlebear/jekyll-theme-editorial@0.1.0   # to lock to a given version - https://github.com/benbalter/jekyll-remote-theme
+permalink:          /:collection/:title:output_ext              # NOTE: changing this default hasn't been tested
 # lsi:                true                      # provides related posts functionality using classifier-reborn - unsupported by github pages
 
 
@@ -96,7 +98,7 @@ analytics:
   goatcounter:                                # goatcounter for personal websites is free
     code:                                     # required if using goatcounter for stats; leave blank otherwise
     allow_local:    false                     # set `true` to test analytics locally, otherwise stats won't be sent from localhost to goatcounter
-staticman_url:      # https://{{bridge_app_name}}.herokuapp.com/v2/entry/{{github-username}}/{{blog-repo}}/{{branch}}/comments
+staticman_url:      # the URL for the staticman API bridge endpoint: https://{{bridge_app_name}}.herokuapp.com/v2/entry/{{github-username}}/{{blog-repo}}/{{branch}}/comments
 search:                                       # site search parameters; NOTE: untested for now
   url:                                        # default: "/search"; where the search form POSTs to
   form_method:                                # default: "post";    typically "post" or "get"--how the search form gets submitted
@@ -208,14 +210,6 @@ feed:
 # Jekyll Mentions - https://github.com/jekyll/jekyll-mentions
 ###################
 jekyll-mentions:    /people
-
-
-###################
-# Remote Theme    - https://github.com/benbalter/jekyll-remote-theme
-#   only needed on github pages, which automatically compiles jekyll for you
-###################
-remote_theme:       middlebear/jekyll-theme-editorial
-# remote_theme:       middlebear/jekyll-theme-editorial@0.1.0   # to lock to a given version
 
 
 ###################

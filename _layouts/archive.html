@@ -13,8 +13,8 @@ layout:           default
 
 {% assign formatted_date  = page.date       | date: date_format %}
 {% assign title           = formatted_date  | append: ' Archives' %}
-{%-assign projects        = site.projects   | where_exp: 'project', 'project.date == formatted_date and project.published == true'-%}
-{%-assign pages           = site.pages      | where_exp: 'pg',      'pg.date      == formatted_date and pg.published == true'-%}
+{%-assign projects        = site.projects   | where_exp: "project", "project.date == formatted_date" | where: "published", "true"-%}
+{%-assign pages           = site.pages      | where_exp: "pg",      "pg.date      == formatted_date" | where: "published", "true"-%}
 
 <section>
   {% include page_header.html page_title=title %}

@@ -38,8 +38,8 @@ excerpt:          ""      # NOTE: this empty excerpt fixes liquid "'if' tag was 
           {%-for year in posts_by_year %}
             {%-assign year_url = site.jekyll-archives.permalinks.year | replace: ':year', year.name-%}
 {%-comment-%}
-            {%-assign year_projects = projects_by_year  | find: 'name', year.name-%}
-            {%-assign year_pages    = pages_by_year     | find: 'name', year.name-%}
+            {%-assign year_projects = projects_by_year  | where: 'name', year.name | first-%}
+            {%-assign year_pages    = pages_by_year     | where: 'name', year.name | first-%}
 {%-endcomment-%}
             <h2{%-if is_year_archive %} class="tight"{%-endif-%}>
               {% if archives_available and archived contains 'year'-%}
@@ -59,8 +59,8 @@ excerpt:          ""      # NOTE: this empty excerpt fixes liquid "'if' tag was 
                   {%-assign month_name = month.name | date: '%m'-%}
                   {%-assign month_url = site.jekyll-archives.permalinks.month | replace: ':year', year.name | replace: ':month', month_name-%}
 {%-comment-%}
-                  {%-assign month_projects  = projects_by_month | find: 'name', month.name-%}
-                  {%-assign month_pages     = pages_by_month    | find: 'name', month.name-%}
+                  {%-assign month_projects  = projects_by_month | where: 'name', month.name | first-%}
+                  {%-assign month_pages     = pages_by_month    | where: 'name', month.name | first-%}
 {%-endcomment-%}
                   <h3 class="tight">
                     {% if archives_available and archived contains 'month'-%}

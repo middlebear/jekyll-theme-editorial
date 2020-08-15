@@ -1,10 +1,11 @@
 ---
 layout:           default
+excerpt:          ""                    # NOTE: this empty excerpt fixes liquid "'if' tag was never closed included" error: https://jekyllrb.com/docs/troubleshooting/#excerpts
 ---
 
 {%-assign title     = page.title    | default: page.tag | prepend: 'Tagged "' | append: '"'-%}
-{%-assign projects  = site.projects | where_exp: 'project', 'project.tags contains page.title and project.published == true'-%}
-{%-assign pages     = site.pages    | where_exp: 'pg',      'pg.tags      contains page.title and pg.published == true'-%}
+{%-assign projects  = site.projects | where_exp: "project", "project.tags contains page.title" | where: "published", "true"-%}
+{%-assign pages     = site.pages    | where_exp: "pg",      "pg.tags      contains page.title" | where: "published", "true"-%}
 
 <section>
   {% include page_header.html page_title=title %}

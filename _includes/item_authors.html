@@ -15,7 +15,7 @@ local:
 
     <ul class="inline csv authors">
     {%-for auth in authors-%}
-      {%-assign author = site.people | find: 'handle', auth-%}
+      {%-assign author = site.people | where: 'handle', auth | first-%}
       {%-if author.published-%}
         <li>{{-author.name-}}</li>
       {%-elsif auth-%}

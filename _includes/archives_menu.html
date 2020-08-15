@@ -1,6 +1,6 @@
 {%-assign archived = site.jekyll-archives.enabled-%}
 {%-if archived contains 'year' or archived contains 'month' or archived contains 'day'-%}
-  {%-assign archives_menu = site.data.navigation | find: "identifier", "archives"-%}
+  {%-assign archives_menu = site.data.navigation | where: "identifier", "archives"  | first-%}
   {%-assign posts_by_year = site.posts          | group_by_exp: "post", "post.date  | date: '%Y'"-%}
   {%-assign years         = posts_by_year       | map: 'name'-%}
   {%-assign firsts        = "1,21,31"           | split: ','-%}

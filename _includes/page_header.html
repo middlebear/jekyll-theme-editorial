@@ -1,4 +1,4 @@
-{%-assign peeps           = site.collections      | find: "label", 'people'-%}
+{%-assign peeps           = site.collections      | where: "label", 'people' | first-%}
 {%-assign authors         = include.author        | default: page.author-%}
 {%-assign page_title      = include.page_title    | default: page.title-%}
 {%-assign subtitle        = include.subtitle      | default: page.subtitle-%}

@@ -15,28 +15,29 @@
               {% elsif site.email and site.show.email_address-%}
               <li class="icon solid fa-envelope"><a href="mailto:{{-site.email-}}" class="u-email" title="{{-email_title-}}">{{-site.email-}}</a></li>
               {%-endif-%}
-              {% if site.contact.phone-%}
+              {% if site.contact.phone != blank-%}
               <li class="icon solid fa-phone p-tel">{{-site.contact.phone-}}</li>
               {%-endif-%}
-              {% if site.contact.address-%}
+              {% unless site.contact.address.line1 == blank and site.contact.address.line2 == blank and site.contact.address.line3 == blank and site.contact.address.city == blank and site.contact.address.state == blank and site.contact.address.zipcode == blank-%}
               <li class="icon solid fa-home p-adr h-adr">
                 <address>
-                  {% if site.contact.address.line1-%}
+                  {% if site.contact.address.line1 != blank-%}
                   <span class="p-street-address">{{ site.contact.address.line1 }}</span><br />
                   {%-endif-%}
-                  {% if site.contact.address.line2 or site.contact.address.line3-%}
+                  {% unless site.contact.address.line2 == blank and site.contact.address.line3 == blank-%}
                   <span class="p-extended-address">
                     {{-site.contact.address.line2 }}
-                    {%-if site.contact.address.line3-%}{{ site.contact.address.line3 | prepend: "<br />" }}{%-endif-%}
+                    {%-if site.contact.address.line2 != blank and site.contact.address.line3 != blank-%}<br />{%-endif-%}
+                    {{ site.contact.address.line3-}}
                   </span><br />
-                  {%-endif-%}
-                  {% if site.contact.address.city or site.contact.address.state or site.contact.address.zipcode-%}
+                  {%-endunless-%}
+                  {% unless site.contact.address.city == blank and site.contact.address.state == blank and site.contact.address.zipcode == blank-%}
                   <span class="p-locality">{{ site.contact.address.city }}</span>
                   <span class="p-region">{{ site.contact.address.state }}</span>
                   <span class="p-postal-code">{{-site.contact.address.zipcode-}}</span><br />
-                  {%-endif %}
+                  {%-endunless %}
                 </address>
               </li>
-            {% endif-%}
+            {% endunless-%}
             </ul>
           </section> <!-- End Section - Contact -->

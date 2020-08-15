@@ -43,7 +43,7 @@ local:
                   <p class="byline">
                   {%-if site.show.authors %}
                     {%-for auth in pg.author-%}
-                      {%-assign author = site.people | find: 'handle', auth-%}
+                      {%-assign author = site.people | where: 'handle', auth | first-%}
                       {%-if author.published and author.url-%}
                         <a href="{{-author.url-}}" rel="author" itemprop="author" class="u-author p-author" title="Read {{ author.name | split: ' ' | first-}}'s bio">{{-author.name-}}</a>
                       {%-elsif author.published-%}

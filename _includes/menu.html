@@ -1,5 +1,5 @@
 {%-assign item_limit  = include.item_limit | default: 12-%}
-{%-assign peeps       = site.collections | find: "label", 'people'-%}
+{%-assign peeps       = site.collections | where: "label", 'people' | first-%}
 
 {%-if site.menus != nil and site.plugins contains 'jekyll-menus' %}
           {% comment-%} the following version of the menu depends on jekyll-menus {%-endcomment-%}

@@ -85,7 +85,7 @@ layout: home
 ---
 
 ```
-To replicate the basic theme home page, replace this file with the following:
+To replicate Editorial's theme home page, replace this file with the following:
 
 ```markdown
 ---
@@ -93,11 +93,11 @@ layout:               home
 body_class:           home
 title:                "Hi, I’m Editorial<br /> by HTML5 UP & Middle Bear"
 subtitle:             My overridden site.tagline
-description:          "Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam."
+description:          "Check out the Github repo for the Editorial theme, or take a look at the code for this demo site, <a href='https://github.com/jekyll-theme-editorial/jekyll-theme-editorial.github.io/'>jekyll-theme-editorial.github.io</a>."
 banner:
-  url:                "/about"
-  link_title:         "Read About Editorial"
-  button_text:        "Learn More"
+  url:                "https://github.com/middlebear/jekyll-theme-editorial"
+  link_title:         "Visit the Editorial theme Github repo"
+  button_text:        "Github Repo"
 images:
   banner:
     file:             "pic10.jpg"
@@ -106,7 +106,7 @@ images:
 # NOTE: features are set in `/_data/features.yml`
 ---
 
-<!-- Responsive Banner -->
+<!-- Banner -->
 {%-include responsive_banner.html-%}
 
 <!-- Section - Features -->
@@ -114,12 +114,11 @@ images:
 
 <!-- Section - Articles -->
 {%-include articles.html section_title="Neat Articles"-%}
-
 ```
 
-This adds three includes (`responsive_banner.html`, `features.html`, and `articles.html`) to the home page. The added yaml front matter is mainly there to configure the banner, although the `title` and `subtitle` keys can be used by the jekyll-seo-tag, for instance.
+This adds three includes (`responsive_banner.html`, `features.html`, and `articles.html`) to the home page. The added yaml front matter is mainly there to configure the banner, although the `title` and `subtitle` keys can be used by the `jekyll-seo-tag` plugin, for instance.
 
-This index page is the root page of your site by default, and uses the special `home` layout from the theme. The `home` layout is generally only used by this index page, so that your homepage can have a unique feel and design. If you wish to change this layout, copy the file `_layouts/home.html` from the theme gem (or copy/download it from the Github repository for the theme gem) to your site's `~/my-jekyll-site/_layouts/home.html` file.
+This index page is the root page of your site by default, and uses the special `home` layout from the Editorial theme. The `home` layout is generally only used by this site index page, so that your homepage can have a unique feel and design. If you wish to change this layout, copy the file `_layouts/home.html` from the theme gem (or copy/download it from the Github repository for the theme gem) to your site's `~/my-jekyll-site/_layouts/home.html` file.
 
 #### Aside: Finding the theme gem
 
@@ -170,6 +169,10 @@ scripts:                                      # these scripts entries can be mov
   - file: comments.js
 ```
 
+The Editorial theme convention is to keep image, script, and styling assets (as well as fonts) in separate subdirectories of the `/assets` directory, as defined by the three keys, `image_path`, `script_path`, and `style_path` above. You could set these to any paths you'd like (even setting them all to just `/assets/`), but remember that you'll need to move default assets from the theme gem into those folders, if you do make such changes.
+
+The `scripts` key is an (ordered) array of script includes for every page in the site (placed at the end of the <abbr>HTML</abbr> `<head>` tag). `jquery.min.js` is of course the [jQuery](https://jquery.com/) library. The next 4 files provide basic interactivity and originates from the Editorial template by HTML5 UP. `email-obfuscation.js` provides utility functions to obfuscate and de-obfuscate email addresses for some light protection against email scraping and spam. `comments.js` provides interactivity for ([staticman](https://staticman.net/)-based) static comments (like form positioning and async response notification). These latter features will be documented separately.
+
 #### Change the site title/subtitle
 
 The title and subtitle of the site is configured by the site's `_config.yml` file, since this is usually a one-time configuration at the start of creating your site. Find this line in `_config.yml`:
@@ -178,7 +181,7 @@ The title and subtitle of the site is configured by the site's `_config.yml` fil
 title: Your awesome title
 ```
 
-and change it as you wish. Notice that the subtitle doesn't appear anywhere in this file. That's because it's inherited from the Editorial theme's configuration file, when the value is absent in your site's config file. Add the following line (typically, you'd place this right under the `title` key to group these together), changing the value as you desire:
+and change it as you wish. Notice that the subtitle doesn't appear anywhere in this file (*if you're on Jekyll 4.0+*). That's because it's inherited from the Editorial theme's configuration file, when the value is absent in your site's config file. Add the following line (typically, you'd place this right under the `title` key to group these together), changing the value as you desire:
 
 ```yaml
 subtitle: by me and Middlebear
@@ -210,7 +213,10 @@ Features are simple components composed of an icon, a title, and some descriptiv
   icon: solid fa-gift
 ```
 
-Note that the `name` and `description` keys can incorporate html (but not Liquid filters/tags). The `icon` key is the class name(s) for the desired [Font Awesome](https://fontawesome.com/icons?d=gallery&m=free) icon. The free Font Awesome icons are divided into `regular`, `solid`, and `brand` variants. The `regular` icons need only a single class value (e.g., `fa-address-book`), but `solid` (e.g., `solid fa-address-book`) and `brand` (e.g., `brand fa-500px`) variants require adding `solid` or `brand` respectively to the class names for the `icon` key.
+Note that the `name` and `description` keys can incorporate <abbr title="HyperText Markup Language">HTML</abbr> (but not Liquid filters/tags).
+
+#### Using Font Awesome icon names
+The `icon` key is the class name(s) for the desired [Font Awesome](https://fontawesome.com/icons?d=gallery&m=free) icon. The free Font Awesome icons are divided into `regular`, `solid`, and `brand` variants. The `regular` icons need only a single class value (e.g., `fa-address-book`), but `solid` (e.g., `solid fa-address-book`) and `brand` (e.g., `brand fa-500px`) variants require adding `solid` or `brand` respectively to the class names for the `icon` key.
 
 Now refresh the home page again, and you should see the 4 features you added show up in the Features section.
 
@@ -252,7 +258,7 @@ sidebar:
     identifier: signin
 ```
 
-Note that, for compatibility, this is the same basic format employed by the [jekyll-menus plugin](https://github.com/forestryio/jekyll-menus) plugin. However, the Editorial theme's basic menu system doesn't use the `weight` key for ordering entries as `jeyll-menus` does.
+Note that, for compatibility, this is the same basic format (and file name) employed by the [jekyll-menus plugin](https://github.com/forestryio/jekyll-menus) plugin. However, the Editorial theme's basic menu system doesn't use the `weight` key for ordering entries as `jeyll-menus` does.
 
 Refresh the page, and you should now see the menu items populated under the "Menu" header. Since most of these pages don't yet exist at this point, they'll show the "404 Not Found" message.
 
@@ -406,9 +412,12 @@ Refreshing the page after saving this file should reveal a new set of social ico
 
 The introductory comments (text after `# `) provide configuration info for social icons. This list is used not only for the social icons in the site header, but also as templates for social links for people, posts, and pages elsewhere.
 
+### What about minima's `twitter_username` and `github_username`?
+Jekyll's default theme, minima, defines two social media keys in the default `_config.yml` file: `twitter_username` and `github_username`. These two keys are not used by the Editorial theme, so at this point, you can keep them for flexibility or remove them to keep your site config file trim.
+
 ### Add the Elements page
 
-To view the site styling elements on a single page, save the following content into `_pages/elements.html`:
+To view the site styling elements on a single page, save the following <abbr>HTML</abbr> content into `_pages/elements.html`:
 
 ```html
 ---
@@ -815,11 +824,11 @@ print 'It took ' + i + ' iterations to sort the deck.';
   </div>
 </div>
 ```
-To view the elements file in your browser, click the "Elements" link in the sidebar menu (`http://localhost:4000/elements`).
+This <abrr>HTML</abbr> comes from the underlying Editorial template from HTML5 UP, and demonstrates the built-in styles available. To view the elements file in your browser, click the "Elements" link in the sidebar menu (`http://localhost:4000/elements`).
 
 ### Add site defaults to make posts render properly
 
-Because of a slight mismatch between HTML5 UP's CSS in the original Editorial HTML template and the default body classes assigned by Jekyll, we need to adjust some sitewide defaults to make posts render correctly. Although these preferences are set in the theme gem's `_config.yml` file, Jekyll doesn't use those defaults as "default defaults", so they must be replicated in your own site's configuration.
+Because of a slight mismatch between HTML5 UP's <abbr title="Cascading Style Sheets">CSS</abbr> in the original Editorial <abbr>HTML</abbr> template and the default body classes assigned by Jekyll, we need to adjust some sitewide defaults to make posts render correctly. Although these preferences are set in the theme gem's `_config.yml` file, Jekyll doesn't use those defaults as "default defaults", so they must be replicated in your own site's configuration.
 
 With that in mind, add the following `defaults` key to you Jekyll site's `_config.yml` file:
 
@@ -848,15 +857,15 @@ defaults:
       comments:     false
       published:    true
 ```
-The only key of interest right now is `body_class` under the second entry's `values` key. This is set to `post` and will override jekyll's default body class of `posts`, giving us `<body class="post">` instead of `<body class="posts">` in the html of our post pages.
+The only key of interest right now is `body_class` under the second entry's `values` key. This is set to `post` and will override jekyll's default body class of `posts`, giving us `<body class="post">` instead of `<body class="posts">` in the <abbr>HTML</abbr> of our post pages.
 
-Restart the Jekyll server and navigate your browser to the "Welcome to Jekyll!" post (should have a URL along the lines of `http://localhost:4000/jekyll/update/20yy/mm/dd/welcome-to-jekyll.html`) to see it properly styled.
+Restart the Jekyll server and navigate your browser to the "Welcome to Jekyll!" post (should have a <abbr title="Uniform Resource Locator">URL</abbr> along the lines of `http://localhost:4000/jekyll/update/20yy/mm/dd/welcome-to-jekyll.html`) to see it properly styled.
 
 Notice also that the sidebar menu now lists the "Welcome to Jekyll!" post automatically under the "Recent Posts" menu item.
 
 #### Add the posts index page, and the pages collection
 
-To view a listing of posts once we have more than one, let's add a posts index page viewable at the relative URL `/posts/` in the browser. We employ a permalink and Jekyll's collections feature to achieve this desired routing. Create the page `~/my-jekyll-site/_pages/posts.html` (creating the `_pages` folder along the way if necessary):
+To view a listing of posts once we have more than one, let's add a posts index page viewable at the relative <abbr>URL</abbr> `/posts/` in the browser. We employ a permalink and Jekyll's collections feature to achieve this desired routing. Create the page `~/my-jekyll-site/_pages/posts.html` (creating the `_pages` folder along the way if necessary):
 
 ```html
 ---
@@ -871,6 +880,7 @@ permalink:        /posts/     # trailing slash makes it an `index.html` file ins
 {% include posts.html %}
 {% include pagination.html %}
 ```
+This page is fairly straightforward. The page header is already included by the layout (`page` by default, set below in `_config.yml`) automatically, so we only need to include an intro paragraph and the posts list, sandwiched by pagination at the top and bottom of the page. We won't see pagination in action until later, when we discuss it specifically.
 
 We also need to tell Jekyll to output collection pages, so add the `collections` key to `_config.yml`:
 
@@ -1121,11 +1131,11 @@ For the `authors` key under the `show` key in `_config.yml`, replace `false` wit
 show:                                         # series of switches to customize what appears on the site
   authors:          true                      # single author blogs may want to disable showing the same author everywhere
 ```
-Restart the Jekyll server and click on the "People" link (which now has 3 sub-items too!) in the sidebar menu. Oops... you'll see an unstyled HTML listing page. We'll fix that next. In the meantime, you should be able to click on the three people listed to see their author pages. Why 3 and not 4? Because one of them is not yet published.
+Restart the Jekyll server and click on the "People" link (which now has 3 sub-items too!) in the sidebar menu. Oops... you'll see an unstyled <abbr>HTML</abbr> listing page. We'll fix that next. In the meantime, you should be able to click on the three people listed to see their author pages. Why 3 and not 4? Because one of them is not yet published.
 
 ### Add the Authors index page
 
-To provide a nice list of authors, we'll take advantage of the theme's `author.html` include, which provides a standard block list format for an author. We iterate through our `site.people` and generate this include for each published author. We set the pages `permalink` in the front matter to `/people/` so that it overrides the ugly HTML index page we saw earlier. Incidentally, if `site.show.authors` is set to `false`, then we'll just show a "404 Not Found" page instead.
+To provide a nice list of authors, we'll take advantage of the theme's `author.html` include, which provides a standard block list format for an author. We iterate through our `site.people` and generate this include for each published author. We set the pages `permalink` in the front matter to `/people/` so that it overrides the ugly <abbr>HTML</abbr> index page we saw earlier. Incidentally, if `site.show.authors` is set to `false`, then we'll just show a "404 Not Found" page instead.
 
 
 ```liquid
@@ -1239,7 +1249,7 @@ Then, after you save the `_config.yml` file, restart, and refresh the browser, y
 
 ### Add the Projects index page
 
-Similar to what we did with authors, we'll use the theme's `projects.html` include to list out standard project blocks for the projects index page. We set the page's `permalink` in the front matter to `/projects/` so that it overrides the ugly default HTML index page. If there are no published projects, we'll just show a little message stating as much. Save this file as `_pages/projects.html` (not to be confused with `_includes/projects.html` which is provided by the Editorial theme gem).
+Similar to what we did with authors, we'll use the theme's `projects.html` include to list out standard project blocks for the projects index page. We set the page's `permalink` in the front matter to `/projects/` so that it overrides the ugly default <abbr>HTML</abbr> index page. If there are no published projects, we'll just show a little message stating as much. Save this file as `_pages/projects.html` (not to be confused with `_includes/projects.html` which is provided by the Editorial theme gem).
 
 ```liquid
 ---
@@ -1328,7 +1338,13 @@ location:         "San Francisco, CA"
 website:          https://jekyllrb.com/docs/home
 description:      Let's make sure Google and company know enough about this page that it will pop up higher in search results
 ```
-Refresh our blog post page, and you should see the page title is now linked (visually indicated with a superscripted link icon), a subtitle under it, and the location listed in the byline. The description field is purely for <abbr title="Search Engine Optimization">SEO</abbr> purposes, and can only be seen by viewing the source of the page (in the HTML HEAD section).
+Refresh our blog post page, and you should see the page title is now linked (visually indicated with a superscripted link icon), a subtitle under it, and the location listed in the byline. The description field is purely for <abbr title="Search Engine Optimization">SEO</abbr> purposes, and can only be seen by viewing the source of the page (in the <abbr>HTML</abbr> `<head>` section).
+
+#### The `last_modified_at` date and the `canonical_url`
+
+Note that we can also add an extra date on top of the explicitly set `date` field in the front matter, and Jekyll's implicitly-set post date from the file name (YYYY-MM-DD-filename.ext). When you update a post, you don't necessarily want to change its original post date, or implicitly change its (canonical) <abbr>URL</abbr> along with it.
+
+This is a good place to note that the `canonical_url` value is only used if the `jekyll-seo-tag` plugin is active, and it only changes the canonical <abbr>URL</abbr> `<link>` value in the <abbr>HTML</abbr> `<head>`, not the actual <abbr>URL</abbr> of the page (you'd still do this via the `permalink` key). Its use is for when the content of the page appears at multiple <abbr>URL</abbr>s, to denote the most original, or canonical, version of the page. Some site builders may want to explicitly display a link to the canonical version of the page, but the Editorial theme doesn't currently do this automatically for you when there is a `canonical_url` value present.
 
 #### Adding a post to a series
 
@@ -1337,7 +1353,7 @@ Sometimes you want to group a few posts together as a series of posts in a way t
 ```yaml
 series:           "build-a-blog"
 ```
-Now refresh the blog post page in your browser and you should see a new series sidebar appear on the right. Note that you don't have to "slugify" the series name. This sames series name just happens to be that way.
+Now refresh the blog post page in your browser and you should see a new series sidebar appear on the right. Note that you don't have to "slugify" the series name. This sample series name just happens to be that way, to show that series names are unslugified and capitalized on display. This is useful if you have multiple series with the same name, but don't want them all grouped together, by making the names unique using only dashes and capitalization to create the illusion of multiple series with the same name.
 
 ### Adding a post image
 
@@ -1354,7 +1370,7 @@ Save the changes and then refresh our blog post page to see a nice, and possibly
 
 #### Adding alt text, title, and caption
 
-Because HTML images have some textual metadata often attached to them, the Editorial theme introduces these extra fields for the common image metadata in the post's front matter:
+Because <abbr>HTML</abbr> images have some textual metadata often attached to them, the Editorial theme introduces these extra fields for the common image metadata in the post's front matter:
 
 ```yaml
 alt_text:         "The Jekyll logo, featuring stylized script and a test tube filled with red, bubbling liquid"
@@ -1418,7 +1434,7 @@ You'll notice that you can customize the metadata for each image along with the 
 
 #### Missing image
 
-Note that if you happen to misspell the name of your image in the front matter config, you'll get a helpful "Missing image" message with the file name and image title in a box instead of the image that Jekyll couldn't find during build.
+Note that if you happen to misspell the name of your image in the front matter config, you'll get a helpful "Missing image" message on the rendered page with the file name and image title in a box instead of a broken/missing image that Jekyll couldn't find during build.
 
 ### Multiple posts and post navigation
 
@@ -1499,7 +1515,7 @@ If you want to link to your Github Pages site instead, you could, for instance, 
 
 
 ##### Font Awesome Icons
-The `icon` entry is the Font Awesome icon to be used, expressed as CSS class(es). It's likely Font Awesome already has an existing brand icon for the social media site, in which case, keep the `brands` value in this class list. You should always keep the `icon` class in the `icon` entry, so the resultant icon is rendered consistently.
+The `icon` entry is the Font Awesome icon to be used, expressed as <abbr>CSS</abbr> class(es). It's likely Font Awesome already has an existing brand icon for the social media site, in which case, keep the `brands` value in this class list. You should always keep the `icon` class in the `icon` entry, so the resultant icon is rendered consistently.
 
 You can also add new entries, like for a fictitious WhatsIt App:
 
@@ -1560,7 +1576,7 @@ TODO
 TODO
 
 ### Banner
-One neat little trick buried in the CSS is the selective removal of `<br>` line breaks from the `h1` header of the `#banner` secion of a page. That's most prominently used on the sample home page, where there is a line break between "Editorial" and "by", which forces a particular spacing on large screens, where the header is beside the image, but gets removed on small (vertically-oriented) screens, where the header is below the image.
+One neat little trick buried in the <abbr>CSS</abbr> is the selective removal of `<br>` line breaks from the `h1` header of the `#banner` secion of a page. That's most prominently used on the sample home page, where there is a line break between "Editorial" and "by", which forces a particular spacing on large screens, where the header is beside the image, but gets removed on small (vertically-oriented) screens, where the header is below the image.
 
 ### Navigation
 The site navigation menu will auto-generate based on the contents of the `menus.yml` data file and the pages, posts, and projects you add to the site. By default, the menu will list the last 10 items for each type. It will also have links to each category page, a link to the tag index page, about, privacy, and terms.
@@ -1609,7 +1625,7 @@ Bug reports and pull requests are welcome on [GitHub](https://github.com/middleb
 The Editorial Jekyll theme is available as open source under the terms of the [CC BY 3.0 License](https://creativecommons.org/licenses/by/3.0/).
 
 ### [HTML5 UP](https://html5up.net) Credits
-* HTML template: [AJ](mailto:"AJ" <aj@lkn.io>) | [🐦](https://twitter.com/ajlkn)<br>  Free for personal and commercial use under the [CCA 3.0 license](https://html5up.net/license).
+* <abbr>HTML</abbr> template: [AJ](mailto:"AJ" <aj@lkn.io>) | [🐦](https://twitter.com/ajlkn)<br>  Free for personal and commercial use under the [CCA 3.0 license](https://html5up.net/license).
 * Demo Images: [Unsplash](unsplash.com)
 * Icons: [Font Awesome](fontawesome.io)
 * Other: [jQuery](jquery.com), [Responsive Tools](https://github.com/ajlkn/responsive-tools)

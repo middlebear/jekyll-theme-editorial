@@ -16,10 +16,10 @@ sidebar:
     title:      Recent Posts
     identifier: posts
     weight:     20
-  # - url:        /archives
-  #   title:      Archives
-  #   identifier: archives
-  #   weight:     21
+  - url:        /archives
+    title:      Archives
+    identifier: archives
+    weight:     21
   - url:        /categories
     title:      Categories
     identifier: categories
